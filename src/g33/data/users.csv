@@ -1,0 +1,3 @@
+username,password,role,full_name
+admin,admin123,Admin,System Administrator
+lecturer,lecturer123,Lecturer,Demo Lecturer
