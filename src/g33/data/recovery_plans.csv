@@ -1,0 +1,3 @@
+plan_id,student_id,student_name,course_code,course_name,reason,recovery_action,status
+RP001,TP078903,Ben Lee,JAVA101,Java Programming,Failed final exam,Attend recovery workshop and resit assessment,Pending
+RP002,TP078905,Daniel Chong,WEB103,Web Development,Total mark below pass mark,Submit additional coursework and attend consultation,Pending
