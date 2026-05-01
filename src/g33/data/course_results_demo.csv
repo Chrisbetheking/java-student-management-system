@@ -1,0 +1,6 @@
+student_id,student_name,course_code,course_name,assignment,midterm,final_exam,total,grade,status
+TP078901,Chris Wang,JAVA101,Java Programming,88,82,90,87.4,A,Pass
+TP078902,Alice Tan,JAVA101,Java Programming,75,68,72,71.7,B,Pass
+TP078903,Ben Lee,JAVA101,Java Programming,45,42,38,40.7,F,Failed
+TP078904,Mei Lim,DBS102,Database Systems,92,88,85,88.0,A,Pass
+TP078905,Daniel Chong,WEB103,Web Development,55,48,45,48.9,F,Failed
