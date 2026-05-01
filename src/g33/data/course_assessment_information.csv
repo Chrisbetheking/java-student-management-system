@@ -1,0 +1,5 @@
+course_code,course_name,assignment_weight,midterm_weight,final_weight,pass_mark
+JAVA101,Java Programming,20,30,50,50
+DBS102,Database Systems,30,20,50,50
+WEB103,Web Development,30,30,40,50
+SE104,Software Engineering,25,25,50,50
