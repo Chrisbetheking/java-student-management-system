@@ -1,107 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Java Student Management System</title>
-  <style>
-    body{
-      margin:0;
-      min-height:100vh;
-      font-family:Arial,sans-serif;
-      background:linear-gradient(135deg,#eef4ff,#f8fafc);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      color:#0f172a;
-    }
-    .card{
-      width:min(880px,90%);
-      background:white;
-      border-radius:28px;
-      padding:46px;
-      box-shadow:0 28px 80px rgba(15,23,42,.12);
-      border:1px solid #e2e8f0;
-    }
-    h1{
-      font-size:48px;
-      line-height:1.05;
-      margin:0 0 18px;
-      letter-spacing:-2px;
-    }
-    p{
-      color:#64748b;
-      font-size:18px;
-      line-height:1.7;
-      margin-bottom:28px;
-    }
-    .tags{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      margin-bottom:30px;
-    }
-    .tag{
-      padding:8px 12px;
-      border-radius:999px;
-      background:#eef2ff;
-      color:#2563eb;
-      font-weight:700;
-      font-size:14px;
-    }
-    .actions{
-      display:flex;
-      flex-wrap:wrap;
-      gap:14px;
-    }
-    a{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      padding:14px 18px;
-      border-radius:14px;
-      text-decoration:none;
-      font-weight:800;
-    }
-    .primary{
-      background:#2563eb;
-      color:white;
-    }
-    .secondary{
-      background:#f1f5f9;
-      color:#2563eb;
-      border:1px solid #e2e8f0;
-    }
-    @media(max-width:640px){
-      .card{padding:28px}
-      h1{font-size:34px}
-      p{font-size:16px}
-      a{width:100%}
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java Grade Demo</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:linear-gradient(135deg,#eef4ff,#f8fafc);
+}
+.container{
+  width:min(900px,92%);
+  margin:40px auto;
+}
+.card{
+  background:white;
+  border-radius:20px;
+  padding:24px;
+  box-shadow:0 20px 60px rgba(0,0,0,0.1);
+}
+input{
+  width:100%;
+  padding:10px;
+  margin-top:6px;
+  margin-bottom:12px;
+  border-radius:8px;
+  border:1px solid #ccc;
+}
+button{
+  padding:12px 16px;
+  border:none;
+  border-radius:10px;
+  background:#2563eb;
+  color:white;
+  font-weight:bold;
+  cursor:pointer;
+}
+.result{
+  margin-top:16px;
+  font-weight:bold;
+}
+</style>
 </head>
+
 <body>
-  <main class="card">
-    <h1>Java Student Management System</h1>
-    <p>
-      A Java Swing-based student management system with result calculation,
-      academic eligibility checking, recovery plan generation, user management,
-      and a browser-based Web Demo for recruiters to test the core logic online.
-    </p>
 
-    <div class="tags">
-      <span class="tag">Java Swing</span>
-      <span class="tag">OOP</span>
-      <span class="tag">CSV Data</span>
-      <span class="tag">Student Result</span>
-      <span class="tag">Web Demo</span>
-    </div>
+<div class="container">
+  <div class="card">
+    <h2>Student Grade Calculator</h2>
 
-    <div class="actions">
-      <a class="primary" href="java-grade-demo.html">Open Web Demo</a>
-      <a class="secondary" href="https://github.com/Chrisbetheking/java-student-management-system" target="_blank">View Source Code</a>
-      <a class="secondary" href="https://chrisbetheking.github.io/WANGHONG-s-Resume-Website/">Back to Resume Website</a>
-    </div>
-  </main>
+    <label>Assignment</label>
+    <input id="a" value="80">
+
+    <label>Midterm</label>
+    <input id="m" value="75">
+
+    <label>Final</label>
+    <input id="f" value="90">
+
+    <button onclick="calc()">Calculate</button>
+
+    <div class="result" id="r">Result: -</div>
+  </div>
+</div>
+
+<script>
+function calc(){
+  let a=Number(document.getElementById("a").value);
+  let m=Number(document.getElementById("m").value);
+  let f=Number(document.getElementById("f").value);
+
+  let total=(a*0.2+m*0.3+f*0.5).toFixed(1);
+  let status= total>=50 ? "Pass" : "Fail";
+
+  document.getElementById("r").innerHTML =
+    "Total: "+total+" | "+status;
+}
+</script>
+
 </body>
 </html>
