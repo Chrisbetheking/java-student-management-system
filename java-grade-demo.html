@@ -6,79 +6,879 @@
 <title>Java Grade Demo</title>
 
 <style>
+:root{
+  --bg:#07111f;
+  --panel:rgba(15,23,42,.82);
+  --card:rgba(255,255,255,.08);
+  --text:#f8fafc;
+  --muted:#94a3b8;
+  --line:rgba(148,163,184,.22);
+  --blue:#60a5fa;
+  --cyan:#22d3ee;
+  --green:#34d399;
+  --red:#fb7185;
+  --yellow:#fbbf24;
+  --radius:28px;
+  --shadow:0 30px 80px rgba(0,0,0,.35);
+}
+
+*{box-sizing:border-box}
+
 body{
   margin:0;
-  font-family:Arial,sans-serif;
-  background:linear-gradient(135deg,#eef4ff,#f8fafc);
+  min-height:100vh;
+  font-family:Inter,Arial,sans-serif;
+  color:var(--text);
+  background:
+    radial-gradient(circle at 15% 10%,rgba(37,99,235,.34),transparent 32%),
+    radial-gradient(circle at 80% 5%,rgba(34,211,238,.23),transparent 30%),
+    var(--bg);
 }
-.container{
-  width:min(900px,92%);
-  margin:40px auto;
+
+.page{
+  width:min(1180px,calc(100% - 36px));
+  margin:0 auto;
+  padding:34px 0 56px;
 }
-.card{
-  background:white;
-  border-radius:20px;
-  padding:24px;
-  box-shadow:0 20px 60px rgba(0,0,0,0.1);
+
+.nav{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:16px;
+  margin-bottom:24px;
+  padding:14px 16px;
+  border:1px solid var(--line);
+  border-radius:999px;
+  background:rgba(15,23,42,.6);
+  backdrop-filter:blur(18px);
+  box-shadow:var(--shadow);
 }
-input{
-  width:100%;
-  padding:10px;
-  margin-top:6px;
-  margin-bottom:12px;
-  border-radius:8px;
-  border:1px solid #ccc;
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-weight:900;
 }
-button{
-  padding:12px 16px;
-  border:none;
-  border-radius:10px;
-  background:#2563eb;
+
+.brand-icon{
+  width:36px;
+  height:36px;
+  border-radius:13px;
+  display:grid;
+  place-items:center;
+  background:linear-gradient(135deg,var(--blue),var(--cyan));
+  color:#06101f;
+  font-weight:950;
+}
+
+.nav a{
+  color:var(--muted);
+  text-decoration:none;
+  font-size:14px;
+  font-weight:800;
+  padding:9px 13px;
+  border-radius:999px;
+}
+
+.nav a:hover{
   color:white;
-  font-weight:bold;
-  cursor:pointer;
+  background:rgba(255,255,255,.08);
 }
-.result{
-  margin-top:16px;
-  font-weight:bold;
+
+.hero{
+  display:grid;
+  grid-template-columns:1.1fr .9fr;
+  gap:22px;
+  margin-bottom:22px;
+}
+
+.hero-main,
+.mini-card,
+.panel,
+.feature{
+  border:1px solid var(--line);
+  background:var(--panel);
+  backdrop-filter:blur(20px);
+  box-shadow:var(--shadow);
+}
+
+.hero-main{
+  border-radius:var(--radius);
+  padding:clamp(30px,5vw,54px);
+  background:
+    linear-gradient(135deg,rgba(37,99,235,.38),rgba(14,165,233,.12)),
+    rgba(15,23,42,.82);
+}
+
+.eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:9px;
+  color:#bfdbfe;
+  background:rgba(96,165,250,.13);
+  border:1px solid rgba(96,165,250,.28);
+  padding:8px 12px;
+  border-radius:999px;
+  font-size:13px;
+  font-weight:900;
+  margin-bottom:18px;
+}
+
+.dot{
+  width:8px;
+  height:8px;
+  background:var(--green);
+  border-radius:50%;
+}
+
+h1{
+  margin:0;
+  font-size:clamp(42px,7vw,72px);
+  line-height:.98;
+  letter-spacing:-.06em;
+}
+
+.gradient-text{
+  background:linear-gradient(90deg,#fff,#93c5fd,#67e8f9);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+
+.hero-text{
+  max-width:760px;
+  margin:22px 0 0;
+  color:#cbd5e1;
+  font-size:18px;
+  line-height:1.8;
+}
+
+.tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:9px;
+  margin-top:20px;
+}
+
+.tag{
+  color:#dbeafe;
+  border:1px solid rgba(147,197,253,.25);
+  background:rgba(96,165,250,.12);
+  padding:8px 11px;
+  border-radius:999px;
+  font-size:13px;
+  font-weight:850;
+}
+
+.actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  margin-top:30px;
+}
+
+.btn{
+  border:0;
+  cursor:pointer;
+  text-decoration:none;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-height:48px;
+  padding:13px 18px;
+  border-radius:16px;
+  font-size:14px;
+  font-weight:950;
+  transition:.2s ease;
+}
+
+.btn-primary{
+  background:linear-gradient(135deg,#60a5fa,#22d3ee);
+  color:#06101f;
+}
+
+.btn-secondary{
+  color:white;
+  border:1px solid var(--line);
+  background:rgba(255,255,255,.08);
+}
+
+.btn:hover{
+  transform:translateY(-2px);
+}
+
+.hero-side{
+  display:grid;
+  gap:14px;
+}
+
+.mini-card{
+  border-radius:24px;
+  padding:22px;
+}
+
+.mini-card span{
+  color:var(--muted);
+  font-size:13px;
+  font-weight:900;
+  text-transform:uppercase;
+  letter-spacing:.07em;
+}
+
+.mini-card strong{
+  display:block;
+  margin-top:8px;
+  font-size:32px;
+}
+
+.mini-card p{
+  margin:8px 0 0;
+  color:#cbd5e1;
+  line-height:1.6;
+  font-size:14px;
+}
+
+.layout{
+  display:grid;
+  grid-template-columns:.96fr 1.04fr;
+  gap:22px;
+  align-items:start;
+}
+
+.panel{
+  border-radius:var(--radius);
+  overflow:hidden;
+}
+
+.panel-head{
+  padding:24px 24px 0;
+}
+
+.panel-body{
+  padding:0 24px 24px;
+}
+
+h2{
+  margin:0;
+  font-size:26px;
+  letter-spacing:-.04em;
+}
+
+.sub{
+  color:var(--muted);
+  line-height:1.7;
+  margin:8px 0 18px;
+  font-size:15px;
+}
+
+.form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
+
+.field{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+}
+
+.field.full{
+  grid-column:1/-1;
+}
+
+label{
+  color:#dbeafe;
+  font-size:13px;
+  font-weight:900;
+}
+
+input,select{
+  width:100%;
+  border:1px solid var(--line);
+  border-radius:16px;
+  min-height:48px;
+  padding:12px 14px;
+  background:rgba(2,6,23,.45);
+  color:white;
+  font-size:15px;
+}
+
+select option{
+  color:#0f172a;
+}
+
+.button-row{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  margin-top:18px;
+}
+
+.rule-box,
+.result-card,
+.insight{
+  margin-top:18px;
+  padding:18px;
+  border-radius:20px;
+  border:1px solid rgba(96,165,250,.22);
+  background:rgba(37,99,235,.11);
+}
+
+.rule-box p,
+.insight p{
+  margin:8px 0;
+  color:#cbd5e1;
+  line-height:1.65;
+  font-size:14px;
+}
+
+.dashboard{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+  margin-bottom:18px;
+}
+
+.metric{
+  padding:18px;
+  border-radius:22px;
+  border:1px solid var(--line);
+  background:var(--card);
+}
+
+.metric span{
+  color:var(--muted);
+  font-size:12px;
+  font-weight:950;
+  text-transform:uppercase;
+}
+
+.metric strong{
+  display:block;
+  margin-top:8px;
+  font-size:30px;
+}
+
+.result-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:14px;
+  margin-bottom:18px;
+}
+
+.pill{
+  padding:8px 12px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:950;
+}
+
+.pill-waiting{
+  color:#fef3c7;
+  background:rgba(251,191,36,.12);
+}
+
+.pill-pass{
+  color:#bbf7d0;
+  background:rgba(52,211,153,.12);
+}
+
+.pill-fail{
+  color:#fecdd3;
+  background:rgba(251,113,133,.12);
+}
+
+.score-area{
+  display:grid;
+  grid-template-columns:160px 1fr;
+  gap:18px;
+  align-items:center;
+}
+
+.score-circle{
+  width:156px;
+  height:156px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:conic-gradient(var(--cyan) 0deg,var(--blue) 250deg,rgba(255,255,255,.12) 250deg);
+  padding:10px;
+}
+
+.score-inner{
+  width:100%;
+  height:100%;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:#091525;
+  border:1px solid var(--line);
+  text-align:center;
+}
+
+.score-inner strong{
+  display:block;
+  font-size:36px;
+}
+
+.score-inner span{
+  color:var(--muted);
+  font-size:12px;
+  font-weight:900;
+}
+
+.detail-list{
+  display:grid;
+  gap:10px;
+}
+
+.detail-item{
+  display:flex;
+  justify-content:space-between;
+  gap:16px;
+  padding-bottom:10px;
+  border-bottom:1px dashed rgba(148,163,184,.26);
+  color:#cbd5e1;
+  font-size:14px;
+}
+
+.detail-item strong{
+  color:white;
+  text-align:right;
+}
+
+.table-section{
+  margin-top:22px;
+}
+
+.table-wrap{
+  overflow-x:auto;
+  border-top:1px solid var(--line);
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  min-width:900px;
+}
+
+th,td{
+  padding:15px 16px;
+  border-bottom:1px solid var(--line);
+  text-align:left;
+  font-size:14px;
+  color:#dbeafe;
+}
+
+th{
+  color:#93c5fd;
+  font-size:12px;
+  text-transform:uppercase;
+  background:rgba(15,23,42,.65);
+}
+
+.empty{
+  text-align:center;
+  color:var(--muted);
+  padding:30px;
+}
+
+.footer-panel{
+  margin-top:22px;
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:16px;
+}
+
+.feature{
+  padding:22px;
+  border-radius:24px;
+}
+
+.feature p{
+  color:var(--muted);
+  line-height:1.7;
+  font-size:14px;
+}
+
+@media(max-width:980px){
+  .hero,.layout{grid-template-columns:1fr}
+  .dashboard{grid-template-columns:repeat(2,1fr)}
+  .footer-panel{grid-template-columns:1fr}
+}
+
+@media(max-width:640px){
+  .page{width:min(100% - 24px,1180px);padding-top:18px}
+  .nav{align-items:flex-start;border-radius:22px;flex-direction:column}
+  .hero-main,.panel-head,.panel-body{padding-left:18px;padding-right:18px}
+  h1{font-size:42px}
+  .form-grid,.score-area{grid-template-columns:1fr}
+  .button-row,.actions{flex-direction:column}
+  .btn{width:100%}
+  .score-circle{margin:0 auto}
 }
 </style>
 </head>
 
 <body>
+<main class="page">
 
-<div class="container">
-  <div class="card">
-    <h2>Student Grade Calculator</h2>
-
-    <label>Assignment</label>
-    <input id="a" value="80">
-
-    <label>Midterm</label>
-    <input id="m" value="75">
-
-    <label>Final</label>
-    <input id="f" value="90">
-
-    <button onclick="calc()">Calculate</button>
-
-    <div class="result" id="r">Result: -</div>
+<nav class="nav">
+  <div class="brand">
+    <div class="brand-icon">J</div>
+    <span>Java Student System</span>
   </div>
-</div>
+  <div>
+    <a href="#demo">Demo</a>
+    <a href="#records">Records</a>
+    <a href="https://github.com/Chrisbetheking/java-student-management-system" target="_blank">GitHub</a>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-main">
+    <div class="eyebrow"><span class="dot"></span> Interactive Web Demo</div>
+
+    <h1>
+      Java Student<br>
+      <span class="gradient-text">Management System</span>
+    </h1>
+
+    <p class="hero-text">
+      A portfolio-friendly web demo that visualizes the core logic of my Java Swing project:
+      student result calculation, academic status checking, grade classification, and recovery plan generation.
+    </p>
+
+    <div class="tags">
+      <span class="tag">Java Swing</span>
+      <span class="tag">OOP</span>
+      <span class="tag">CSV Data</span>
+      <span class="tag">Grade Logic</span>
+      <span class="tag">Recovery Plan</span>
+    </div>
+
+    <div class="actions">
+      <a class="btn btn-primary" href="#demo">Try the Demo</a>
+      <a class="btn btn-secondary" href="https://chrisbetheking.github.io/WANGHONG-s-Resume-Website/">Back to Resume</a>
+    </div>
+  </div>
+
+  <div class="hero-side">
+    <div class="mini-card">
+      <span>Project Type</span>
+      <strong>Desktop + Web</strong>
+      <p>Original system built with Java Swing. This page presents the core logic as an online demo.</p>
+    </div>
+    <div class="mini-card">
+      <span>Core Function</span>
+      <strong>Result Engine</strong>
+      <p>Calculates weighted marks, checks pass/fail status, assigns grade, and recommends recovery action.</p>
+    </div>
+    <div class="mini-card">
+      <span>Resume Value</span>
+      <strong>Runnable Demo</strong>
+      <p>Recruiters can test the system logic directly without installing Java or NetBeans.</p>
+    </div>
+  </div>
+</section>
+
+<section id="demo" class="layout">
+  <div class="panel">
+    <div class="panel-head">
+      <h2>Student Result Input</h2>
+      <p class="sub">Enter marks below and generate a student academic result record.</p>
+    </div>
+
+    <div class="panel-body">
+      <div class="form-grid">
+        <div class="field">
+          <label>Student ID</label>
+          <input id="studentId" value="TP078901">
+        </div>
+
+        <div class="field">
+          <label>Student Name</label>
+          <input id="studentName" value="Chris Wang">
+        </div>
+
+        <div class="field full">
+          <label>Course</label>
+          <select id="course">
+            <option value="JAVA101|Java Programming">JAVA101 - Java Programming</option>
+            <option value="DBS102|Database Systems">DBS102 - Database Systems</option>
+            <option value="WEB103|Web Development">WEB103 - Web Development</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Assignment</label>
+          <input id="assignment" type="number" value="88">
+        </div>
+
+        <div class="field">
+          <label>Midterm</label>
+          <input id="midterm" type="number" value="82">
+        </div>
+
+        <div class="field">
+          <label>Final Exam</label>
+          <input id="finalExam" type="number" value="90">
+        </div>
+
+        <div class="field">
+          <label>Pass Mark</label>
+          <input id="passMark" type="number" value="50">
+        </div>
+      </div>
+
+      <div class="button-row">
+        <button class="btn btn-primary" onclick="calculateResult()">Calculate Result</button>
+        <button class="btn btn-secondary" onclick="loadFailedSample()">Load Failed Sample</button>
+        <button class="btn btn-secondary" onclick="resetDemo()">Reset</button>
+      </div>
+
+      <div class="rule-box">
+        <h3>Business Logic</h3>
+        <p><strong>Total Mark</strong> = Assignment × 20% + Midterm × 30% + Final Exam × 50%</p>
+        <p><strong>Status</strong> = Pass when total mark is greater than or equal to the pass mark.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-head">
+      <h2>Live Dashboard</h2>
+      <p class="sub">Summary metrics update after each result calculation.</p>
+
+      <div class="dashboard">
+        <div class="metric"><span>Records</span><strong id="totalRecords">0</strong></div>
+        <div class="metric"><span>Failed</span><strong id="failedRecords">0</strong></div>
+        <div class="metric"><span>Average</span><strong id="averageMark">0.0</strong></div>
+        <div class="metric"><span>Plans</span><strong id="planCount">0</strong></div>
+      </div>
+    </div>
+
+    <div class="panel-body">
+      <div class="result-card">
+        <div class="result-top">
+          <h3>Latest Result</h3>
+          <span id="statusPill" class="pill pill-waiting">Waiting</span>
+        </div>
+
+        <div class="score-area">
+          <div id="scoreCircle" class="score-circle">
+            <div class="score-inner">
+              <div>
+                <strong id="scoreValue">--</strong>
+                <span>Total Mark</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="detail-list">
+            <div class="detail-item"><span>Student</span><strong id="resultStudent">-</strong></div>
+            <div class="detail-item"><span>Course</span><strong id="resultCourse">-</strong></div>
+            <div class="detail-item"><span>Grade</span><strong id="resultGrade">-</strong></div>
+            <div class="detail-item"><span>Recommendation</span><strong id="resultPlan">-</strong></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="insight">
+        <h3>What this demo shows</h3>
+        <p>This demo turns the Java desktop application's academic calculation logic into a browser-based experience.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="records" class="panel table-section">
+  <div class="panel-head">
+    <h2>Generated Academic Records</h2>
+    <p class="sub">Each calculation creates a result record similar to the CSV-backed Java project.</p>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Student ID</th>
+          <th>Name</th>
+          <th>Course</th>
+          <th>Assignment</th>
+          <th>Midterm</th>
+          <th>Final</th>
+          <th>Total</th>
+          <th>Grade</th>
+          <th>Status</th>
+          <th>Recovery Plan</th>
+        </tr>
+      </thead>
+      <tbody id="recordTable">
+        <tr><td colspan="10" class="empty">No records yet. Use the calculator above to generate a result.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="footer-panel">
+  <div class="feature">
+    <h3>Java OOP Design</h3>
+    <p>The original system separates students, users, course results, eligibility checking, recovery plans, and services.</p>
+  </div>
+  <div class="feature">
+    <h3>CSV-Based Storage</h3>
+    <p>The Java version uses CSV files to store student data, user accounts, course results, and recovery records.</p>
+  </div>
+  <div class="feature">
+    <h3>Recruiter-Friendly Demo</h3>
+    <p>This web version lets reviewers test the logic instantly while GitHub keeps the full Java source code.</p>
+  </div>
+</section>
+
+</main>
 
 <script>
-function calc(){
-  let a=Number(document.getElementById("a").value);
-  let m=Number(document.getElementById("m").value);
-  let f=Number(document.getElementById("f").value);
+const records=[];
 
-  let total=(a*0.2+m*0.3+f*0.5).toFixed(1);
-  let status= total>=50 ? "Pass" : "Fail";
+function getNumber(id){
+  const value=Number(document.getElementById(id).value);
+  return Number.isNaN(value)?0:Math.min(100,Math.max(0,value));
+}
 
-  document.getElementById("r").innerHTML =
-    "Total: "+total+" | "+status;
+function getGrade(total){
+  if(total>=85)return"A";
+  if(total>=70)return"B";
+  if(total>=60)return"C";
+  if(total>=50)return"D";
+  return"F";
+}
+
+function getPlan(status,courseName){
+  if(status==="Pass")return"No recovery required";
+  return"Consultation + recovery task + resit for "+courseName;
+}
+
+function calculateResult(){
+  const studentId=document.getElementById("studentId").value.trim()||"Unknown ID";
+  const studentName=document.getElementById("studentName").value.trim()||"Unknown Student";
+  const courseParts=document.getElementById("course").value.split("|");
+  const courseCode=courseParts[0];
+  const courseName=courseParts[1];
+
+  const assignment=getNumber("assignment");
+  const midterm=getNumber("midterm");
+  const finalExam=getNumber("finalExam");
+  const passMark=getNumber("passMark");
+
+  const total=Number((assignment*.2+midterm*.3+finalExam*.5).toFixed(1));
+  const grade=getGrade(total);
+  const status=total>=passMark?"Pass":"Failed";
+  const recoveryPlan=getPlan(status,courseName);
+
+  const record={studentId,studentName,courseCode,courseName,assignment,midterm,finalExam,total,grade,status,recoveryPlan};
+  records.unshift(record);
+
+  updateLatest(record);
+  updateTable();
+  updateSummary();
+}
+
+function updateLatest(record){
+  document.getElementById("resultStudent").textContent=record.studentId+" - "+record.studentName;
+  document.getElementById("resultCourse").textContent=record.courseCode+" - "+record.courseName;
+  document.getElementById("resultGrade").textContent=record.grade;
+  document.getElementById("resultPlan").textContent=record.recoveryPlan;
+  document.getElementById("scoreValue").textContent=record.total;
+
+  const pill=document.getElementById("statusPill");
+  pill.textContent=record.status;
+  pill.className=record.status==="Pass"?"pill pill-pass":"pill pill-fail";
+
+  const degree=Math.round((record.total/100)*360);
+  const circle=document.getElementById("scoreCircle");
+
+  if(record.status==="Pass"){
+    circle.style.background="conic-gradient(#34d399 0deg,#60a5fa "+degree+"deg,rgba(255,255,255,.12) "+degree+"deg)";
+  }else{
+    circle.style.background="conic-gradient(#fb7185 0deg,#fbbf24 "+degree+"deg,rgba(255,255,255,.12) "+degree+"deg)";
+  }
+}
+
+function updateSummary(){
+  const totalRecords=records.length;
+  const failed=records.filter(r=>r.status==="Failed").length;
+  const avg=totalRecords===0?0:records.reduce((s,r)=>s+r.total,0)/totalRecords;
+
+  document.getElementById("totalRecords").textContent=totalRecords;
+  document.getElementById("failedRecords").textContent=failed;
+  document.getElementById("averageMark").textContent=avg.toFixed(1);
+  document.getElementById("planCount").textContent=failed;
+}
+
+function updateTable(){
+  const tbody=document.getElementById("recordTable");
+  tbody.innerHTML="";
+
+  records.forEach(r=>{
+    const tr=document.createElement("tr");
+    tr.innerHTML=`
+      <td>${r.studentId}</td>
+      <td>${r.studentName}</td>
+      <td>${r.courseCode}</td>
+      <td>${r.assignment}</td>
+      <td>${r.midterm}</td>
+      <td>${r.finalExam}</td>
+      <td><strong>${r.total}</strong></td>
+      <td><strong>${r.grade}</strong></td>
+      <td><span class="${r.status==="Pass"?"pill pill-pass":"pill pill-fail"}">${r.status}</span></td>
+      <td>${r.recoveryPlan}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+
+function loadFailedSample(){
+  document.getElementById("studentId").value="TP078903";
+  document.getElementById("studentName").value="Ben Lee";
+  document.getElementById("course").value="JAVA101|Java Programming";
+  document.getElementById("assignment").value=45;
+  document.getElementById("midterm").value=42;
+  document.getElementById("finalExam").value=38;
+  document.getElementById("passMark").value=50;
+}
+
+function resetDemo(){
+  records.length=0;
+  document.getElementById("studentId").value="TP078901";
+  document.getElementById("studentName").value="Chris Wang";
+  document.getElementById("assignment").value=88;
+  document.getElementById("midterm").value=82;
+  document.getElementById("finalExam").value=90;
+  document.getElementById("passMark").value=50;
+
+  document.getElementById("totalRecords").textContent="0";
+  document.getElementById("failedRecords").textContent="0";
+  document.getElementById("averageMark").textContent="0.0";
+  document.getElementById("planCount").textContent="0";
+
+  document.getElementById("resultStudent").textContent="-";
+  document.getElementById("resultCourse").textContent="-";
+  document.getElementById("resultGrade").textContent="-";
+  document.getElementById("resultPlan").textContent="-";
+  document.getElementById("scoreValue").textContent="--";
+
+  const pill=document.getElementById("statusPill");
+  pill.textContent="Waiting";
+  pill.className="pill pill-waiting";
+
+  document.getElementById("recordTable").innerHTML=
+    '<tr><td colspan="10" class="empty">No records yet. Use the calculator above to generate a result.</td></tr>';
 }
 </script>
-
 </body>
 </html>
