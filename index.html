@@ -1,21 +1,262 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Redirecting...</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Java Grade Management Demo</title>
 
-  <meta http-equiv="refresh" content="0; url=java-grade-demo.html">
+<style>
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:linear-gradient(135deg,#eef4ff,#f8fafc);
+  color:#0f172a;
+}
+.container{
+  width:min(1000px,92%);
+  margin:40px auto;
+}
+.hero{
+  background:#2563eb;
+  color:white;
+  padding:36px;
+  border-radius:26px;
+  margin-bottom:24px;
+}
+.hero h1{margin:0 0 10px;font-size:40px}
+.card{
+  background:white;
+  border-radius:22px;
+  padding:26px;
+  margin-bottom:22px;
+  box-shadow:0 18px 50px rgba(15,23,42,.1);
+}
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+}
+label{
+  font-weight:700;
+}
+input,select{
+  width:100%;
+  padding:12px;
+  margin-top:6px;
+  border-radius:12px;
+  border:1px solid #cbd5e1;
+  font-size:16px;
+}
+button,a{
+  display:inline-block;
+  padding:13px 18px;
+  border-radius:14px;
+  border:none;
+  background:#2563eb;
+  color:white;
+  font-weight:800;
+  cursor:pointer;
+  text-decoration:none;
+  margin-top:18px;
+}
+.secondary{
+  background:#eef2ff;
+  color:#2563eb;
+}
+.result{
+  font-size:20px;
+  font-weight:800;
+  margin-top:18px;
+}
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:18px;
+}
+th,td{
+  padding:12px;
+  border-bottom:1px solid #e2e8f0;
+  text-align:left;
+}
+.pass{color:#16a34a;font-weight:800}
+.fail{color:#dc2626;font-weight:800}
 
-  <script>
-    window.location.href = "java-grade-demo.html";
-  </script>
+@media(max-width:700px){
+  .grid{grid-template-columns:1fr}
+  .hero h1{font-size:30px}
+  button,a{width:100%;text-align:center}
+  table{font-size:14px}
+}
+</style>
 </head>
 
 <body>
-  <p>Redirecting to Java Web Demo...</p>
-  <p>
-    <a href="java-grade-demo.html">Click here if you are not redirected.</a>
-  </p>
+<div class="container">
+
+  <section class="hero">
+    <h1>Java Student Management System</h1>
+    <p>Interactive Web Demo for student grade calculation, pass/fail checking, and recovery plan generation.</p>
+  </section>
+
+  <section class="card">
+    <h2>Student Result Calculator</h2>
+
+    <div class="grid">
+      <div>
+        <label>Student ID</label>
+        <input id="studentId" value="TP078901">
+      </div>
+
+      <div>
+        <label>Student Name</label>
+        <input id="studentName" value="Chris Wang">
+      </div>
+
+      <div>
+        <label>Course</label>
+        <select id="course">
+          <option value="JAVA101|Java Programming">JAVA101 - Java Programming</option>
+          <option value="DBS102|Database Systems">DBS102 - Database Systems</option>
+          <option value="WEB103|Web Development">WEB103 - Web Development</option>
+        </select>
+      </div>
+
+      <div>
+        <label>Pass Mark</label>
+        <input id="passMark" type="number" value="50">
+      </div>
+
+      <div>
+        <label>Assignment Mark</label>
+        <input id="assignment" type="number" value="88">
+      </div>
+
+      <div>
+        <label>Midterm Mark</label>
+        <input id="midterm" type="number" value="82">
+      </div>
+
+      <div>
+        <label>Final Exam Mark</label>
+        <input id="finalExam" type="number" value="90">
+      </div>
+    </div>
+
+    <button onclick="calculate()">Calculate Result</button>
+    <button class="secondary" onclick="loadFailed()">Load Failed Sample</button>
+
+    <div class="result" id="resultBox">
+      Waiting for calculation...
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>Generated Records</h2>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Student</th>
+          <th>Course</th>
+          <th>Total</th>
+          <th>Grade</th>
+          <th>Status</th>
+          <th>Recovery Plan</th>
+        </tr>
+      </thead>
+      <tbody id="recordTable">
+        <tr>
+          <td colspan="6">No record yet.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <a class="secondary" href="https://github.com/Chrisbetheking/java-student-management-system" target="_blank">
+      View Java Source Code
+    </a>
+  </section>
+
+</div>
+
+<script>
+const records = [];
+
+function num(id){
+  return Number(document.getElementById(id).value) || 0;
+}
+
+function grade(total){
+  if(total >= 85) return "A";
+  if(total >= 70) return "B";
+  if(total >= 60) return "C";
+  if(total >= 50) return "D";
+  return "F";
+}
+
+function calculate(){
+  const studentId = document.getElementById("studentId").value;
+  const studentName = document.getElementById("studentName").value;
+  const courseData = document.getElementById("course").value.split("|");
+  const courseCode = courseData[0];
+  const courseName = courseData[1];
+
+  const assignment = num("assignment");
+  const midterm = num("midterm");
+  const finalExam = num("finalExam");
+  const passMark = num("passMark");
+
+  const total = Number((assignment * 0.2 + midterm * 0.3 + finalExam * 0.5).toFixed(1));
+  const finalGrade = grade(total);
+  const status = total >= passMark ? "Pass" : "Failed";
+  const plan = status === "Pass"
+    ? "No recovery required"
+    : "Attend consultation, submit recovery task, and resit assessment";
+
+  const record = {
+    student: studentId + " - " + studentName,
+    course: courseCode + " - " + courseName,
+    total,
+    grade: finalGrade,
+    status,
+    plan
+  };
+
+  records.unshift(record);
+
+  document.getElementById("resultBox").innerHTML =
+    `Total Mark: ${total} | Grade: ${finalGrade} | Status: <span class="${status === "Pass" ? "pass" : "fail"}">${status}</span>`;
+
+  renderTable();
+}
+
+function renderTable(){
+  const table = document.getElementById("recordTable");
+  table.innerHTML = "";
+
+  records.forEach(r=>{
+    table.innerHTML += `
+      <tr>
+        <td>${r.student}</td>
+        <td>${r.course}</td>
+        <td>${r.total}</td>
+        <td>${r.grade}</td>
+        <td class="${r.status === "Pass" ? "pass" : "fail"}">${r.status}</td>
+        <td>${r.plan}</td>
+      </tr>
+    `;
+  });
+}
+
+function loadFailed(){
+  document.getElementById("studentId").value = "TP078903";
+  document.getElementById("studentName").value = "Ben Lee";
+  document.getElementById("course").value = "JAVA101|Java Programming";
+  document.getElementById("assignment").value = 45;
+  document.getElementById("midterm").value = 42;
+  document.getElementById("finalExam").value = 38;
+  document.getElementById("passMark").value = 50;
+}
+</script>
+
 </body>
 </html>
