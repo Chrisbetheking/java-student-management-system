@@ -22,23 +22,44 @@
   --shadow:0 30px 80px rgba(0,0,0,.35);
 }
 
-*{box-sizing:border-box}
+*{
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
 
 body{
   margin:0;
   min-height:100vh;
-  font-family:Inter,Arial,sans-serif;
+  font-family:Inter,Arial,"Microsoft YaHei",sans-serif;
   color:var(--text);
   background:
     radial-gradient(circle at 15% 10%,rgba(37,99,235,.34),transparent 32%),
     radial-gradient(circle at 80% 5%,rgba(34,211,238,.23),transparent 30%),
+    radial-gradient(circle at 50% 80%,rgba(167,139,250,.18),transparent 38%),
     var(--bg);
+}
+
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  background-image:
+    linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);
+  background-size:38px 38px;
+  mask-image:linear-gradient(to bottom,rgba(0,0,0,.85),transparent 78%);
 }
 
 .page{
   width:min(1180px,calc(100% - 36px));
   margin:0 auto;
   padding:34px 0 56px;
+  position:relative;
+  z-index:1;
 }
 
 .nav{
@@ -60,6 +81,7 @@ body{
   align-items:center;
   gap:10px;
   font-weight:900;
+  letter-spacing:-.02em;
 }
 
 .brand-icon{
@@ -73,24 +95,46 @@ body{
   font-weight:950;
 }
 
-.nav a{
+.nav-right{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+}
+
+.nav a,
+.lang-btn{
   color:var(--muted);
   text-decoration:none;
   font-size:14px;
   font-weight:800;
   padding:9px 13px;
   border-radius:999px;
+  transition:.2s ease;
+  border:0;
+  background:transparent;
+  cursor:pointer;
+  font-family:inherit;
 }
 
-.nav a:hover{
+.nav a:hover,
+.lang-btn:hover{
   color:white;
   background:rgba(255,255,255,.08);
+}
+
+.lang-btn{
+  border:1px solid rgba(96,165,250,.25);
+  color:#dbeafe;
+  background:rgba(96,165,250,.1);
 }
 
 .hero{
   display:grid;
   grid-template-columns:1.1fr .9fr;
   gap:22px;
+  align-items:stretch;
   margin-bottom:22px;
 }
 
@@ -110,6 +154,7 @@ body{
   background:
     linear-gradient(135deg,rgba(37,99,235,.38),rgba(14,165,233,.12)),
     rgba(15,23,42,.82);
+  overflow:hidden;
 }
 
 .eyebrow{
@@ -131,6 +176,7 @@ body{
   height:8px;
   background:var(--green);
   border-radius:50%;
+  box-shadow:0 0 0 6px rgba(52,211,153,.15);
 }
 
 h1{
@@ -192,6 +238,7 @@ h1{
   font-size:14px;
   font-weight:950;
   transition:.2s ease;
+  font-family:inherit;
 }
 
 .btn-primary{
@@ -231,6 +278,7 @@ h1{
   display:block;
   margin-top:8px;
   font-size:32px;
+  letter-spacing:-.04em;
 }
 
 .mini-card p{
@@ -304,10 +352,17 @@ input,select{
   background:rgba(2,6,23,.45);
   color:white;
   font-size:15px;
+  outline:none;
 }
 
 select option{
   color:#0f172a;
+}
+
+input:focus,
+select:focus{
+  border-color:rgba(96,165,250,.85);
+  box-shadow:0 0 0 4px rgba(96,165,250,.14);
 }
 
 .button-row{
@@ -325,6 +380,11 @@ select option{
   border-radius:20px;
   border:1px solid rgba(96,165,250,.22);
   background:rgba(37,99,235,.11);
+}
+
+.rule-box h3,
+.insight h3{
+  margin:0 0 10px;
 }
 
 .rule-box p,
@@ -354,6 +414,7 @@ select option{
   font-size:12px;
   font-weight:950;
   text-transform:uppercase;
+  letter-spacing:.07em;
 }
 
 .metric strong{
@@ -370,11 +431,20 @@ select option{
   margin-bottom:18px;
 }
 
+.result-top h3{
+  margin:0;
+  font-size:22px;
+}
+
 .pill{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
   padding:8px 12px;
   border-radius:999px;
   font-size:12px;
   font-weight:950;
+  white-space:nowrap;
 }
 
 .pill-waiting{
@@ -446,6 +516,14 @@ select option{
   font-size:14px;
 }
 
+.detail-item:last-child{
+  border-bottom:0;
+}
+
+.detail-item span{
+  color:var(--muted);
+}
+
 .detail-item strong{
   color:white;
   text-align:right;
@@ -478,6 +556,7 @@ th{
   color:#93c5fd;
   font-size:12px;
   text-transform:uppercase;
+  letter-spacing:.07em;
   background:rgba(15,23,42,.65);
 }
 
@@ -499,27 +578,143 @@ th{
   border-radius:24px;
 }
 
+.feature h3{
+  margin:0 0 8px;
+}
+
 .feature p{
+  margin:0;
   color:var(--muted);
   line-height:1.7;
   font-size:14px;
 }
 
 @media(max-width:980px){
-  .hero,.layout{grid-template-columns:1fr}
-  .dashboard{grid-template-columns:repeat(2,1fr)}
-  .footer-panel{grid-template-columns:1fr}
+  .hero,.layout{
+    grid-template-columns:1fr;
+  }
+
+  .dashboard{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .footer-panel{
+    grid-template-columns:1fr;
+  }
 }
 
 @media(max-width:640px){
-  .page{width:min(100% - 24px,1180px);padding-top:18px}
-  .nav{align-items:flex-start;border-radius:22px;flex-direction:column}
-  .hero-main,.panel-head,.panel-body{padding-left:18px;padding-right:18px}
-  h1{font-size:42px}
-  .form-grid,.score-area{grid-template-columns:1fr}
-  .button-row,.actions{flex-direction:column}
-  .btn{width:100%}
-  .score-circle{margin:0 auto}
+  .page{
+    width:min(100% - 24px,1180px);
+    padding-top:18px;
+  }
+
+  .nav{
+    align-items:stretch;
+    border-radius:22px;
+    flex-direction:column;
+  }
+
+  .nav-right{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    width:100%;
+  }
+
+  .nav a,
+  .lang-btn{
+    text-align:center;
+    background:rgba(255,255,255,.06);
+  }
+
+  .hero-main,
+  .panel-head,
+  .panel-body{
+    padding-left:18px;
+    padding-right:18px;
+  }
+
+  h1{
+    font-size:42px;
+  }
+
+  .form-grid,
+  .score-area{
+    grid-template-columns:1fr;
+  }
+
+  .button-row,
+  .actions{
+    flex-direction:column;
+  }
+
+  .btn{
+    width:100%;
+  }
+
+  .score-circle{
+    margin:0 auto;
+  }
+
+  table,
+  thead,
+  tbody,
+  th,
+  td,
+  tr{
+    display:block;
+  }
+
+  table{
+    min-width:0;
+  }
+
+  thead{
+    display:none;
+  }
+
+  tbody{
+    padding:0 14px 16px;
+  }
+
+  tr{
+    margin:14px 0;
+    border:1px solid var(--line);
+    border-radius:18px;
+    background:rgba(255,255,255,.06);
+    overflow:hidden;
+  }
+
+  td{
+    display:flex;
+    justify-content:space-between;
+    gap:16px;
+    border-bottom:1px solid rgba(148,163,184,.16);
+    padding:12px 14px;
+    font-size:13px;
+    line-height:1.45;
+  }
+
+  td:last-child{
+    border-bottom:0;
+  }
+
+  td::before{
+    content:attr(data-label);
+    color:#93c5fd;
+    font-weight:900;
+    min-width:105px;
+  }
+
+  .empty{
+    display:block;
+    text-align:center;
+    padding:24px 12px;
+  }
+
+  .empty::before{
+    display:none;
+  }
 }
 </style>
 </head>
@@ -530,58 +725,64 @@ th{
 <nav class="nav">
   <div class="brand">
     <div class="brand-icon">J</div>
-    <span>Java Student System</span>
+    <span data-i18n="brand">Java Student System</span>
   </div>
-  <div>
-    <a href="#demo">Demo</a>
-    <a href="#records">Records</a>
-    <a href="https://github.com/Chrisbetheking/java-student-management-system" target="_blank">GitHub</a>
+
+  <div class="nav-right">
+    <a href="#demo" data-i18n="navDemo">Demo</a>
+    <a href="#records" data-i18n="navRecords">Records</a>
+    <a href="https://github.com/Chrisbetheking/java-student-management-system" target="_blank" data-i18n="navGithub">GitHub</a>
+    <button class="lang-btn" type="button" onclick="toggleLanguage()" id="langBtn">中文</button>
   </div>
 </nav>
 
 <section class="hero">
   <div class="hero-main">
-    <div class="eyebrow"><span class="dot"></span> Interactive Web Demo</div>
+    <div class="eyebrow">
+      <span class="dot"></span>
+      <span data-i18n="eyebrow">Interactive Web Demo</span>
+    </div>
 
     <h1>
-      Java Student<br>
-      <span class="gradient-text">Management System</span>
+      <span data-i18n="heroTitleLine1">Java Student</span><br>
+      <span class="gradient-text" data-i18n="heroTitleLine2">Management System</span>
     </h1>
 
-    <p class="hero-text">
-      A portfolio-friendly web demo that visualizes the core logic of my Java Swing project:
-      student result calculation, academic status checking, grade classification, and recovery plan generation.
+    <p class="hero-text" data-i18n="heroText">
+      An interactive browser version of my Java Swing student management system, focused on grade calculation, pass/fail checking, and recovery-plan handling.
     </p>
 
     <div class="tags">
       <span class="tag">Java Swing</span>
       <span class="tag">OOP</span>
       <span class="tag">CSV Data</span>
-      <span class="tag">Grade Logic</span>
-      <span class="tag">Recovery Plan</span>
+      <span class="tag" data-i18n="tagGrade">Grade Logic</span>
+      <span class="tag" data-i18n="tagRecovery">Recovery Plan</span>
     </div>
 
     <div class="actions">
-      <a class="btn btn-primary" href="#demo">Try the Demo</a>
-      <a class="btn btn-secondary" href="https://chrisbetheking.github.io/WANGHONG-s-Resume-Website/">Back to Resume</a>
+      <a class="btn btn-primary" href="#demo" data-i18n="tryDemo">Try the Demo</a>
+      <a class="btn btn-secondary" href="https://chrisbetheking.github.io/WANGHONG-s-Resume-Website/" data-i18n="backResume">Back to Resume</a>
     </div>
   </div>
 
   <div class="hero-side">
     <div class="mini-card">
-      <span>Project Type</span>
-      <strong>Desktop + Web</strong>
-      <p>Original system built with Java Swing. This page presents the core logic as an online demo.</p>
+      <span data-i18n="side1Label">Project Type</span>
+      <strong data-i18n="side1Title">Desktop + Web</strong>
+      <p data-i18n="side1Text">Original system built with Java Swing. This page presents the core logic as an online demo.</p>
     </div>
+
     <div class="mini-card">
-      <span>Core Function</span>
-      <strong>Result Engine</strong>
-      <p>Calculates weighted marks, checks pass/fail status, assigns grade, and recommends recovery action.</p>
+      <span data-i18n="side2Label">Core Function</span>
+      <strong data-i18n="side2Title">Result Engine</strong>
+      <p data-i18n="side2Text">Calculates weighted marks, checks pass/fail status, assigns grade, and recommends recovery action.</p>
     </div>
+
     <div class="mini-card">
-      <span>Resume Value</span>
-      <strong>Runnable Demo</strong>
-      <p>Recruiters can test the system logic directly without installing Java or NetBeans.</p>
+      <span data-i18n="side3Label">Online Preview</span>
+      <strong data-i18n="side3Title">Grade Workflow</strong>
+      <p data-i18n="side3Text">Input student marks, calculate weighted results, check pass/fail status, and generate a recovery recommendation.</p>
     </div>
   </div>
 </section>
@@ -589,24 +790,24 @@ th{
 <section id="demo" class="layout">
   <div class="panel">
     <div class="panel-head">
-      <h2>Student Result Input</h2>
-      <p class="sub">Enter marks below and generate a student academic result record.</p>
+      <h2 data-i18n="inputTitle">Student Result Input</h2>
+      <p class="sub" data-i18n="inputSub">Enter marks below and generate a student academic result record.</p>
     </div>
 
     <div class="panel-body">
       <div class="form-grid">
         <div class="field">
-          <label>Student ID</label>
+          <label data-i18n="studentId">Student ID</label>
           <input id="studentId" value="TP078901">
         </div>
 
         <div class="field">
-          <label>Student Name</label>
+          <label data-i18n="studentName">Student Name</label>
           <input id="studentName" value="Chris Wang">
         </div>
 
         <div class="field full">
-          <label>Course</label>
+          <label data-i18n="course">Course</label>
           <select id="course">
             <option value="JAVA101|Java Programming">JAVA101 - Java Programming</option>
             <option value="DBS102|Database Systems">DBS102 - Database Systems</option>
@@ -615,58 +816,58 @@ th{
         </div>
 
         <div class="field">
-          <label>Assignment</label>
+          <label data-i18n="assignment">Assignment</label>
           <input id="assignment" type="number" value="88">
         </div>
 
         <div class="field">
-          <label>Midterm</label>
+          <label data-i18n="midterm">Midterm</label>
           <input id="midterm" type="number" value="82">
         </div>
 
         <div class="field">
-          <label>Final Exam</label>
+          <label data-i18n="finalExam">Final Exam</label>
           <input id="finalExam" type="number" value="90">
         </div>
 
         <div class="field">
-          <label>Pass Mark</label>
+          <label data-i18n="passMark">Pass Mark</label>
           <input id="passMark" type="number" value="50">
         </div>
       </div>
 
       <div class="button-row">
-        <button class="btn btn-primary" onclick="calculateResult()">Calculate Result</button>
-        <button class="btn btn-secondary" onclick="loadFailedSample()">Load Failed Sample</button>
-        <button class="btn btn-secondary" onclick="resetDemo()">Reset</button>
+        <button class="btn btn-primary" onclick="calculateResult()" data-i18n="calcBtn">Calculate Result</button>
+        <button class="btn btn-secondary" onclick="loadFailedSample()" data-i18n="failedBtn">Load Failed Sample</button>
+        <button class="btn btn-secondary" onclick="resetDemo()" data-i18n="resetBtn">Reset</button>
       </div>
 
       <div class="rule-box">
-        <h3>Business Logic</h3>
-        <p><strong>Total Mark</strong> = Assignment × 20% + Midterm × 30% + Final Exam × 50%</p>
-        <p><strong>Status</strong> = Pass when total mark is greater than or equal to the pass mark.</p>
+        <h3 data-i18n="logicTitle">Business Logic</h3>
+        <p data-i18n="logic1"><strong>Total Mark</strong> = Assignment × 20% + Midterm × 30% + Final Exam × 50%</p>
+        <p data-i18n="logic2"><strong>Status</strong> = Pass when total mark is greater than or equal to the pass mark.</p>
       </div>
     </div>
   </div>
 
   <div class="panel">
     <div class="panel-head">
-      <h2>Live Dashboard</h2>
-      <p class="sub">Summary metrics update after each result calculation.</p>
+      <h2 data-i18n="dashboardTitle">Live Dashboard</h2>
+      <p class="sub" data-i18n="dashboardSub">Summary metrics update after each result calculation.</p>
 
       <div class="dashboard">
-        <div class="metric"><span>Records</span><strong id="totalRecords">0</strong></div>
-        <div class="metric"><span>Failed</span><strong id="failedRecords">0</strong></div>
-        <div class="metric"><span>Average</span><strong id="averageMark">0.0</strong></div>
-        <div class="metric"><span>Plans</span><strong id="planCount">0</strong></div>
+        <div class="metric"><span data-i18n="recordsMetric">Records</span><strong id="totalRecords">0</strong></div>
+        <div class="metric"><span data-i18n="failedMetric">Failed</span><strong id="failedRecords">0</strong></div>
+        <div class="metric"><span data-i18n="averageMetric">Average</span><strong id="averageMark">0.0</strong></div>
+        <div class="metric"><span data-i18n="plansMetric">Plans</span><strong id="planCount">0</strong></div>
       </div>
     </div>
 
     <div class="panel-body">
       <div class="result-card">
         <div class="result-top">
-          <h3>Latest Result</h3>
-          <span id="statusPill" class="pill pill-waiting">Waiting</span>
+          <h3 data-i18n="latestResult">Latest Result</h3>
+          <span id="statusPill" class="pill pill-waiting" data-i18n="waiting">Waiting</span>
         </div>
 
         <div class="score-area">
@@ -674,23 +875,23 @@ th{
             <div class="score-inner">
               <div>
                 <strong id="scoreValue">--</strong>
-                <span>Total Mark</span>
+                <span data-i18n="totalMark">Total Mark</span>
               </div>
             </div>
           </div>
 
           <div class="detail-list">
-            <div class="detail-item"><span>Student</span><strong id="resultStudent">-</strong></div>
-            <div class="detail-item"><span>Course</span><strong id="resultCourse">-</strong></div>
-            <div class="detail-item"><span>Grade</span><strong id="resultGrade">-</strong></div>
-            <div class="detail-item"><span>Recommendation</span><strong id="resultPlan">-</strong></div>
+            <div class="detail-item"><span data-i18n="detailStudent">Student</span><strong id="resultStudent">-</strong></div>
+            <div class="detail-item"><span data-i18n="detailCourse">Course</span><strong id="resultCourse">-</strong></div>
+            <div class="detail-item"><span data-i18n="detailGrade">Grade</span><strong id="resultGrade">-</strong></div>
+            <div class="detail-item"><span data-i18n="detailPlan">Recommendation</span><strong id="resultPlan">-</strong></div>
           </div>
         </div>
       </div>
 
       <div class="insight">
-        <h3>What this demo shows</h3>
-        <p>This demo turns the Java desktop application's academic calculation logic into a browser-based experience.</p>
+        <h3 data-i18n="insightTitle">What this demo shows</h3>
+        <p data-i18n="insightText">This demo turns the Java desktop application's academic calculation logic into a browser-based experience.</p>
       </div>
     </div>
   </div>
@@ -698,28 +899,28 @@ th{
 
 <section id="records" class="panel table-section">
   <div class="panel-head">
-    <h2>Generated Academic Records</h2>
-    <p class="sub">Each calculation creates a result record similar to the CSV-backed Java project.</p>
+    <h2 data-i18n="recordsTitle">Generated Academic Records</h2>
+    <p class="sub" data-i18n="recordsSub">Each calculation creates a result record similar to the CSV-backed Java project.</p>
   </div>
 
   <div class="table-wrap">
     <table>
       <thead>
         <tr>
-          <th>Student ID</th>
-          <th>Name</th>
-          <th>Course</th>
-          <th>Assignment</th>
-          <th>Midterm</th>
-          <th>Final</th>
-          <th>Total</th>
-          <th>Grade</th>
-          <th>Status</th>
-          <th>Recovery Plan</th>
+          <th data-i18n="thStudentId">Student ID</th>
+          <th data-i18n="thName">Name</th>
+          <th data-i18n="thCourse">Course</th>
+          <th data-i18n="thAssignment">Assignment</th>
+          <th data-i18n="thMidterm">Midterm</th>
+          <th data-i18n="thFinal">Final</th>
+          <th data-i18n="thTotal">Total</th>
+          <th data-i18n="thGrade">Grade</th>
+          <th data-i18n="thStatus">Status</th>
+          <th data-i18n="thPlan">Recovery Plan</th>
         </tr>
       </thead>
       <tbody id="recordTable">
-        <tr><td colspan="10" class="empty">No records yet. Use the calculator above to generate a result.</td></tr>
+        <tr><td colspan="10" class="empty" data-label="" data-i18n="emptyRecord">No records yet. Use the calculator above to generate a result.</td></tr>
       </tbody>
     </table>
   </div>
@@ -727,60 +928,260 @@ th{
 
 <section class="footer-panel">
   <div class="feature">
-    <h3>Java OOP Design</h3>
-    <p>The original system separates students, users, course results, eligibility checking, recovery plans, and services.</p>
+    <h3 data-i18n="feature1Title">Java OOP Design</h3>
+    <p data-i18n="feature1Text">The original system separates students, users, course results, eligibility checking, recovery plans, and services.</p>
   </div>
+
   <div class="feature">
-    <h3>CSV-Based Storage</h3>
-    <p>The Java version uses CSV files to store student data, user accounts, course results, and recovery records.</p>
+    <h3 data-i18n="feature2Title">CSV-Based Storage</h3>
+    <p data-i18n="feature2Text">The Java version uses CSV files to store student data, user accounts, course results, and recovery records.</p>
   </div>
+
   <div class="feature">
-    <h3>Recruiter-Friendly Demo</h3>
-    <p>This web version lets reviewers test the logic instantly while GitHub keeps the full Java source code.</p>
+    <h3 data-i18n="feature3Title">Recruiter-Friendly Demo</h3>
+    <p data-i18n="feature3Text">This web version lets reviewers test the logic instantly while GitHub keeps the full Java source code.</p>
   </div>
 </section>
 
 </main>
 
 <script>
-const records=[];
+let currentLang = "en";
+const records = [];
+
+const i18n = {
+  en: {
+    brand:"Java Student System",
+    navDemo:"Demo",
+    navRecords:"Records",
+    navGithub:"GitHub",
+    eyebrow:"Interactive Web Demo",
+    heroTitleLine1:"Java Student",
+    heroTitleLine2:"Management System",
+    heroText:"An interactive browser version of my Java Swing student management system, focused on grade calculation, pass/fail checking, and recovery-plan handling.",
+    tagGrade:"Grade Logic",
+    tagRecovery:"Recovery Plan",
+    tryDemo:"Try the Demo",
+    backResume:"Back to Resume",
+    side1Label:"Project Type",
+    side1Title:"Desktop + Web",
+    side1Text:"Original system built with Java Swing. This page presents the core logic as an online demo.",
+    side2Label:"Core Function",
+    side2Title:"Result Engine",
+    side2Text:"Calculates weighted marks, checks pass/fail status, assigns grade, and recommends recovery action.",
+    side3Label:"Online Preview",
+    side3Title:"Grade Workflow",
+    side3Text:"Input student marks, calculate weighted results, check pass/fail status, and generate a recovery recommendation.",
+    inputTitle:"Student Result Input",
+    inputSub:"Enter marks below and generate a student academic result record.",
+    studentId:"Student ID",
+    studentName:"Student Name",
+    course:"Course",
+    assignment:"Assignment",
+    midterm:"Midterm",
+    finalExam:"Final Exam",
+    passMark:"Pass Mark",
+    calcBtn:"Calculate Result",
+    failedBtn:"Load Failed Sample",
+    resetBtn:"Reset",
+    logicTitle:"Business Logic",
+    logic1:"<strong>Total Mark</strong> = Assignment × 20% + Midterm × 30% + Final Exam × 50%",
+    logic2:"<strong>Status</strong> = Pass when total mark is greater than or equal to the pass mark.",
+    dashboardTitle:"Live Dashboard",
+    dashboardSub:"Summary metrics update after each result calculation.",
+    recordsMetric:"Records",
+    failedMetric:"Failed",
+    averageMetric:"Average",
+    plansMetric:"Plans",
+    latestResult:"Latest Result",
+    waiting:"Waiting",
+    totalMark:"Total Mark",
+    detailStudent:"Student",
+    detailCourse:"Course",
+    detailGrade:"Grade",
+    detailPlan:"Recommendation",
+    insightTitle:"What this demo shows",
+    insightText:"This demo turns the Java desktop application's academic calculation logic into a browser-based experience.",
+    recordsTitle:"Generated Academic Records",
+    recordsSub:"Each calculation creates a result record similar to the CSV-backed Java project.",
+    thStudentId:"Student ID",
+    thName:"Name",
+    thCourse:"Course",
+    thAssignment:"Assignment",
+    thMidterm:"Midterm",
+    thFinal:"Final",
+    thTotal:"Total",
+    thGrade:"Grade",
+    thStatus:"Status",
+    thPlan:"Recovery Plan",
+    emptyRecord:"No records yet. Use the calculator above to generate a result.",
+    feature1Title:"Java OOP Design",
+    feature1Text:"The original system separates students, users, course results, eligibility checking, recovery plans, and services.",
+    feature2Title:"CSV-Based Storage",
+    feature2Text:"The Java version uses CSV files to store student data, user accounts, course results, and recovery records.",
+    feature3Title:"Recruiter-Friendly Demo",
+    feature3Text:"This web version lets reviewers test the logic instantly while GitHub keeps the full Java source code.",
+    pass:"Pass",
+    failed:"Failed",
+    noPlan:"No recovery required",
+    recoveryPlanPrefix:"Consultation + recovery task + resit for ",
+    langBtn:"中文",
+    mobileLabels:["Student ID","Name","Course","Assignment","Midterm","Final","Total","Grade","Status","Recovery Plan"]
+  },
+
+  zh: {
+    brand:"Java 学生管理系统",
+    navDemo:"演示",
+    navRecords:"记录",
+    navGithub:"GitHub",
+    eyebrow:"在线交互演示",
+    heroTitleLine1:"Java 学生",
+    heroTitleLine2:"管理系统",
+    heroText:"这是我 Java Swing 学生管理系统的浏览器演示版本，重点展示成绩计算、通过/未通过判断、等级划分和补考计划处理流程。",
+    tagGrade:"成绩逻辑",
+    tagRecovery:"补考计划",
+    tryDemo:"体验演示",
+    backResume:"返回简历",
+    side1Label:"项目类型",
+    side1Title:"桌面端 + Web",
+    side1Text:"原项目基于 Java Swing 开发，本页面将核心业务逻辑做成可在线体验的 Web 演示。",
+    side2Label:"核心功能",
+    side2Title:"成绩计算引擎",
+    side2Text:"根据权重计算总评成绩，判断通过状态，生成等级，并给出补考处理建议。",
+    side3Label:"在线预览",
+    side3Title:"成绩处理流程",
+    side3Text:"输入学生成绩后，可完成总评计算、通过/未通过判断，并预览补考建议流程。",
+    inputTitle:"学生成绩输入",
+    inputSub:"输入学生成绩后，生成一条学术成绩记录。",
+    studentId:"学生 ID",
+    studentName:"学生姓名",
+    course:"课程",
+    assignment:"作业成绩",
+    midterm:"期中成绩",
+    finalExam:"期末成绩",
+    passMark:"及格线",
+    calcBtn:"计算成绩",
+    failedBtn:"加载未通过示例",
+    resetBtn:"重置",
+    logicTitle:"业务逻辑",
+    logic1:"<strong>总评成绩</strong> = 作业成绩 × 20% + 期中成绩 × 30% + 期末成绩 × 50%",
+    logic2:"<strong>通过规则</strong> = 总评成绩大于或等于及格线则通过。",
+    dashboardTitle:"实时数据面板",
+    dashboardSub:"每次计算后，统计数据会自动更新。",
+    recordsMetric:"记录数",
+    failedMetric:"未通过",
+    averageMetric:"平均分",
+    plansMetric:"补考计划",
+    latestResult:"最新结果",
+    waiting:"等待计算",
+    totalMark:"总评成绩",
+    detailStudent:"学生",
+    detailCourse:"课程",
+    detailGrade:"等级",
+    detailPlan:"建议",
+    insightTitle:"这个演示展示了什么",
+    insightText:"该页面将 Java 桌面端系统中的成绩计算逻辑转化为浏览器可交互体验，方便快速理解系统核心流程。",
+    recordsTitle:"生成的成绩记录",
+    recordsSub:"每次计算都会生成一条记录，模拟原 Java 项目中基于 CSV 的成绩数据处理流程。",
+    thStudentId:"学生 ID",
+    thName:"姓名",
+    thCourse:"课程",
+    thAssignment:"作业",
+    thMidterm:"期中",
+    thFinal:"期末",
+    thTotal:"总评",
+    thGrade:"等级",
+    thStatus:"状态",
+    thPlan:"补考计划",
+    emptyRecord:"暂无记录。请先使用上方计算器生成结果。",
+    feature1Title:"Java 面向对象设计",
+    feature1Text:"原系统将学生、用户、课程成绩、资格检查、补考计划和服务逻辑拆分为不同类。",
+    feature2Title:"CSV 数据存储",
+    feature2Text:"Java 版本使用 CSV 文件保存学生信息、用户账号、课程结果和补考记录。",
+    feature3Title:"适合简历展示的演示",
+    feature3Text:"该 Web 版本可以让查看者无需安装 Java 或 NetBeans，直接体验项目核心业务逻辑。",
+    pass:"通过",
+    failed:"未通过",
+    noPlan:"无需补考计划",
+    recoveryPlanPrefix:"参加辅导、完成补救任务并重考：",
+    langBtn:"English",
+    mobileLabels:["学生 ID","姓名","课程","作业","期中","期末","总评","等级","状态","补考计划"]
+  }
+};
+
+function toggleLanguage(){
+  currentLang = currentLang === "en" ? "zh" : "en";
+  applyLanguage();
+  updateTable();
+  updateLatestLanguageOnly();
+}
+
+function applyLanguage(){
+  document.documentElement.lang = currentLang === "zh" ? "zh-CN" : "en";
+  const dict = i18n[currentLang];
+
+  document.querySelectorAll("[data-i18n]").forEach(el=>{
+    const key = el.getAttribute("data-i18n");
+    if(dict[key] !== undefined){
+      el.innerHTML = dict[key];
+    }
+  });
+
+  document.getElementById("langBtn").textContent = dict.langBtn;
+}
 
 function getNumber(id){
-  const value=Number(document.getElementById(id).value);
-  return Number.isNaN(value)?0:Math.min(100,Math.max(0,value));
+  const value = Number(document.getElementById(id).value);
+  return Number.isNaN(value) ? 0 : Math.min(100,Math.max(0,value));
 }
 
 function getGrade(total){
-  if(total>=85)return"A";
-  if(total>=70)return"B";
-  if(total>=60)return"C";
-  if(total>=50)return"D";
-  return"F";
+  if(total >= 85) return "A";
+  if(total >= 70) return "B";
+  if(total >= 60) return "C";
+  if(total >= 50) return "D";
+  return "F";
 }
 
 function getPlan(status,courseName){
-  if(status==="Pass")return"No recovery required";
-  return"Consultation + recovery task + resit for "+courseName;
+  const dict = i18n[currentLang];
+
+  if(status === "Pass"){
+    return dict.noPlan;
+  }
+
+  return dict.recoveryPlanPrefix + courseName;
 }
 
 function calculateResult(){
-  const studentId=document.getElementById("studentId").value.trim()||"Unknown ID";
-  const studentName=document.getElementById("studentName").value.trim()||"Unknown Student";
-  const courseParts=document.getElementById("course").value.split("|");
-  const courseCode=courseParts[0];
-  const courseName=courseParts[1];
+  const studentId = document.getElementById("studentId").value.trim() || "Unknown ID";
+  const studentName = document.getElementById("studentName").value.trim() || "Unknown Student";
+  const courseParts = document.getElementById("course").value.split("|");
+  const courseCode = courseParts[0];
+  const courseName = courseParts[1];
 
-  const assignment=getNumber("assignment");
-  const midterm=getNumber("midterm");
-  const finalExam=getNumber("finalExam");
-  const passMark=getNumber("passMark");
+  const assignment = getNumber("assignment");
+  const midterm = getNumber("midterm");
+  const finalExam = getNumber("finalExam");
+  const passMark = getNumber("passMark");
 
-  const total=Number((assignment*.2+midterm*.3+finalExam*.5).toFixed(1));
-  const grade=getGrade(total);
-  const status=total>=passMark?"Pass":"Failed";
-  const recoveryPlan=getPlan(status,courseName);
+  const total = Number((assignment * .2 + midterm * .3 + finalExam * .5).toFixed(1));
+  const grade = getGrade(total);
+  const status = total >= passMark ? "Pass" : "Failed";
 
-  const record={studentId,studentName,courseCode,courseName,assignment,midterm,finalExam,total,grade,status,recoveryPlan};
+  const record = {
+    studentId,
+    studentName,
+    courseCode,
+    courseName,
+    assignment,
+    midterm,
+    finalExam,
+    total,
+    grade,
+    status
+  };
+
   records.unshift(record);
 
   updateLatest(record);
@@ -789,96 +1190,134 @@ function calculateResult(){
 }
 
 function updateLatest(record){
-  document.getElementById("resultStudent").textContent=record.studentId+" - "+record.studentName;
-  document.getElementById("resultCourse").textContent=record.courseCode+" - "+record.courseName;
-  document.getElementById("resultGrade").textContent=record.grade;
-  document.getElementById("resultPlan").textContent=record.recoveryPlan;
-  document.getElementById("scoreValue").textContent=record.total;
+  const dict = i18n[currentLang];
 
-  const pill=document.getElementById("statusPill");
-  pill.textContent=record.status;
-  pill.className=record.status==="Pass"?"pill pill-pass":"pill pill-fail";
+  document.getElementById("resultStudent").textContent = record.studentId + " - " + record.studentName;
+  document.getElementById("resultCourse").textContent = record.courseCode + " - " + record.courseName;
+  document.getElementById("resultGrade").textContent = record.grade;
+  document.getElementById("resultPlan").textContent = getPlan(record.status,record.courseName);
+  document.getElementById("scoreValue").textContent = record.total;
 
-  const degree=Math.round((record.total/100)*360);
-  const circle=document.getElementById("scoreCircle");
+  const pill = document.getElementById("statusPill");
+  pill.textContent = record.status === "Pass" ? dict.pass : dict.failed;
+  pill.className = record.status === "Pass" ? "pill pill-pass" : "pill pill-fail";
 
-  if(record.status==="Pass"){
-    circle.style.background="conic-gradient(#34d399 0deg,#60a5fa "+degree+"deg,rgba(255,255,255,.12) "+degree+"deg)";
+  const degree = Math.round((record.total / 100) * 360);
+  const circle = document.getElementById("scoreCircle");
+
+  if(record.status === "Pass"){
+    circle.style.background = "conic-gradient(#34d399 0deg,#60a5fa " + degree + "deg,rgba(255,255,255,.12) " + degree + "deg)";
   }else{
-    circle.style.background="conic-gradient(#fb7185 0deg,#fbbf24 "+degree+"deg,rgba(255,255,255,.12) "+degree+"deg)";
+    circle.style.background = "conic-gradient(#fb7185 0deg,#fbbf24 " + degree + "deg,rgba(255,255,255,.12) " + degree + "deg)";
+  }
+}
+
+function updateLatestLanguageOnly(){
+  if(records.length > 0){
+    updateLatest(records[0]);
+  }else{
+    const pill = document.getElementById("statusPill");
+    pill.textContent = i18n[currentLang].waiting;
+    pill.className = "pill pill-waiting";
   }
 }
 
 function updateSummary(){
-  const totalRecords=records.length;
-  const failed=records.filter(r=>r.status==="Failed").length;
-  const avg=totalRecords===0?0:records.reduce((s,r)=>s+r.total,0)/totalRecords;
+  const totalRecords = records.length;
+  const failed = records.filter(r=>r.status === "Failed").length;
+  const avg = totalRecords === 0 ? 0 : records.reduce((s,r)=>s+r.total,0) / totalRecords;
 
-  document.getElementById("totalRecords").textContent=totalRecords;
-  document.getElementById("failedRecords").textContent=failed;
-  document.getElementById("averageMark").textContent=avg.toFixed(1);
-  document.getElementById("planCount").textContent=failed;
+  document.getElementById("totalRecords").textContent = totalRecords;
+  document.getElementById("failedRecords").textContent = failed;
+  document.getElementById("averageMark").textContent = avg.toFixed(1);
+  document.getElementById("planCount").textContent = failed;
 }
 
 function updateTable(){
-  const tbody=document.getElementById("recordTable");
-  tbody.innerHTML="";
+  const tbody = document.getElementById("recordTable");
+  const dict = i18n[currentLang];
+  tbody.innerHTML = "";
+
+  if(records.length === 0){
+    tbody.innerHTML = '<tr><td colspan="10" class="empty" data-label="">' + dict.emptyRecord + '</td></tr>';
+    return;
+  }
 
   records.forEach(r=>{
-    const tr=document.createElement("tr");
-    tr.innerHTML=`
-      <td>${r.studentId}</td>
-      <td>${r.studentName}</td>
-      <td>${r.courseCode}</td>
-      <td>${r.assignment}</td>
-      <td>${r.midterm}</td>
-      <td>${r.finalExam}</td>
-      <td><strong>${r.total}</strong></td>
-      <td><strong>${r.grade}</strong></td>
-      <td><span class="${r.status==="Pass"?"pill pill-pass":"pill pill-fail"}">${r.status}</span></td>
-      <td>${r.recoveryPlan}</td>
+    const tr = document.createElement("tr");
+    const statusText = r.status === "Pass" ? dict.pass : dict.failed;
+    const planText = getPlan(r.status,r.courseName);
+    const labels = dict.mobileLabels;
+
+    tr.innerHTML = `
+      <td data-label="${labels[0]}">${escapeHtml(r.studentId)}</td>
+      <td data-label="${labels[1]}">${escapeHtml(r.studentName)}</td>
+      <td data-label="${labels[2]}">${escapeHtml(r.courseCode)}</td>
+      <td data-label="${labels[3]}">${r.assignment}</td>
+      <td data-label="${labels[4]}">${r.midterm}</td>
+      <td data-label="${labels[5]}">${r.finalExam}</td>
+      <td data-label="${labels[6]}"><strong>${r.total}</strong></td>
+      <td data-label="${labels[7]}"><strong>${r.grade}</strong></td>
+      <td data-label="${labels[8]}"><span class="${r.status === "Pass" ? "pill pill-pass" : "pill pill-fail"}">${statusText}</span></td>
+      <td data-label="${labels[9]}">${escapeHtml(planText)}</td>
     `;
+
     tbody.appendChild(tr);
   });
 }
 
 function loadFailedSample(){
-  document.getElementById("studentId").value="TP078903";
-  document.getElementById("studentName").value="Ben Lee";
-  document.getElementById("course").value="JAVA101|Java Programming";
-  document.getElementById("assignment").value=45;
-  document.getElementById("midterm").value=42;
-  document.getElementById("finalExam").value=38;
-  document.getElementById("passMark").value=50;
+  document.getElementById("studentId").value = "TP078903";
+  document.getElementById("studentName").value = "Ben Lee";
+  document.getElementById("course").value = "JAVA101|Java Programming";
+  document.getElementById("assignment").value = 45;
+  document.getElementById("midterm").value = 42;
+  document.getElementById("finalExam").value = 38;
+  document.getElementById("passMark").value = 50;
 }
 
 function resetDemo(){
-  records.length=0;
-  document.getElementById("studentId").value="TP078901";
-  document.getElementById("studentName").value="Chris Wang";
-  document.getElementById("assignment").value=88;
-  document.getElementById("midterm").value=82;
-  document.getElementById("finalExam").value=90;
-  document.getElementById("passMark").value=50;
+  records.length = 0;
 
-  document.getElementById("totalRecords").textContent="0";
-  document.getElementById("failedRecords").textContent="0";
-  document.getElementById("averageMark").textContent="0.0";
-  document.getElementById("planCount").textContent="0";
+  document.getElementById("studentId").value = "TP078901";
+  document.getElementById("studentName").value = "Chris Wang";
+  document.getElementById("course").value = "JAVA101|Java Programming";
+  document.getElementById("assignment").value = 88;
+  document.getElementById("midterm").value = 82;
+  document.getElementById("finalExam").value = 90;
+  document.getElementById("passMark").value = 50;
 
-  document.getElementById("resultStudent").textContent="-";
-  document.getElementById("resultCourse").textContent="-";
-  document.getElementById("resultGrade").textContent="-";
-  document.getElementById("resultPlan").textContent="-";
-  document.getElementById("scoreValue").textContent="--";
+  document.getElementById("totalRecords").textContent = "0";
+  document.getElementById("failedRecords").textContent = "0";
+  document.getElementById("averageMark").textContent = "0.0";
+  document.getElementById("planCount").textContent = "0";
 
-  const pill=document.getElementById("statusPill");
-  pill.textContent="Waiting";
-  pill.className="pill pill-waiting";
+  document.getElementById("resultStudent").textContent = "-";
+  document.getElementById("resultCourse").textContent = "-";
+  document.getElementById("resultGrade").textContent = "-";
+  document.getElementById("resultPlan").textContent = "-";
+  document.getElementById("scoreValue").textContent = "--";
 
-  document.getElementById("recordTable").innerHTML=
-    '<tr><td colspan="10" class="empty">No records yet. Use the calculator above to generate a result.</td></tr>';
+  const pill = document.getElementById("statusPill");
+  pill.textContent = i18n[currentLang].waiting;
+  pill.className = "pill pill-waiting";
+
+  document.getElementById("scoreCircle").style.background =
+    "conic-gradient(#22d3ee 0deg,#60a5fa 250deg,rgba(255,255,255,.12) 250deg)";
+
+  updateTable();
 }
+
+function escapeHtml(value){
+  return String(value)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+applyLanguage();
 </script>
 </body>
 </html>
