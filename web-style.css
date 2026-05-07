@@ -136,6 +136,22 @@ button {
   color: var(--text);
   background: rgba(255, 255, 255, 0.08);
 }
+.lang-btn {
+  min-height: 38px;
+  padding: 0 14px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: #07101f;
+  background: var(--text);
+  font-weight: 800;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.lang-btn:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.05);
+}
 
 .hero {
   padding: 96px 0 72px;
