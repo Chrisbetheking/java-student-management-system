@@ -1,324 +1,250 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <title>Java Student Grade Management System</title>
-
-  <meta
-    name="description"
-    content="A public web demo for the core grade calculation logic from a Java Student Grade Management System."
-  />
-
-  <link rel="stylesheet" href="web-style.css" />
-</head>
-
-<body>
-  <div class="page-bg"></div>
-
-  <header class="site-header">
-    <nav class="nav">
-      <a class="brand" href="#">
-        <span class="brand-mark">JG</span>
-        <span>Java Grade System</span>
-      </a>
-
-      <div class="nav-links">
-        <a href="#calculator">Calculator</a>
-        <a href="#records">Records</a>
-        <a href="#about">About</a>
-        <a href="https://github.com/Chrisbetheking/java-student-management-system" target="_blank" rel="noopener">
-          GitHub
-        </a>
-      </div>
-    </nav>
-  </header>
-
-  <main>
-    <section class="hero">
-      <div class="container hero-grid">
-        <div class="hero-copy">
-          <div class="eyebrow">
-            <span>Java</span>
-            <span>OOP</span>
-            <span>Grade Calculation</span>
-            <span>CSV Export</span>
-          </div>
-
-          <h1>Java Student Grade Management System</h1>
-
-          <p class="hero-subtitle">
-            Web Demo for core grade calculation logic from a Java desktop system.
-          </p>
-
-          <p class="hero-text">
-            This page is a public web demo extracted from the grade calculation part of a Java Student
-            Grade Management System. It is used to show the calculation rules, pass / fail judgement,
-            resit suggestion, local records, and CSV export without requiring reviewers to run the Java
-            desktop application.
-          </p>
-
-          <div class="hero-actions">
-            <a class="btn primary" href="#calculator">Try Calculator</a>
-            <button class="btn secondary" type="button" id="loadPassTop">Load Pass Sample</button>
-            <a class="btn ghost" href="https://github.com/Chrisbetheking/java-student-management-system" target="_blank" rel="noopener">
-              Source Code
-            </a>
-          </div>
-        </div>
-
-        <div class="summary-card">
-          <p class="summary-label">Demo Focus</p>
-
-          <div class="summary-list">
-            <div>
-              <strong>Calculation</strong>
-              <span>Coursework + Final Exam</span>
-            </div>
-
-            <div>
-              <strong>Status</strong>
-              <span>Pass / Fail / Resit Required</span>
-            </div>
-
-            <div>
-              <strong>Records</strong>
-              <span>LocalStorage + CSV Export</span>
-            </div>
-
-            <div>
-              <strong>Project Type</strong>
-              <span>Java System + Web Demo</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="calculator" class="section">
-      <div class="container">
-        <div class="section-heading">
-          <span>Calculator</span>
-          <h2>Grade Calculation Demo</h2>
-          <p>
-            Use sample buttons or enter custom scores to test the grade calculation, result status,
-            and recovery suggestion logic.
-          </p>
-        </div>
-
-        <div class="workspace">
-          <section class="panel form-panel">
-            <div class="panel-head">
-              <div>
-                <h3>Input</h3>
-                <p>Student and course information</p>
-              </div>
-
-              <button class="small-btn" type="button" id="resetForm">Reset</button>
-            </div>
-
-            <div class="sample-grid">
-              <button type="button" class="sample-btn" data-sample="pass">Load Pass Sample</button>
-              <button type="button" class="sample-btn" data-sample="borderline">Load Borderline Sample</button>
-              <button type="button" class="sample-btn" data-sample="failed">Load Failed Sample</button>
-              <button type="button" class="sample-btn" data-sample="excellent">Load Excellent Sample</button>
-            </div>
-
-            <form id="gradeForm" class="grade-form">
-              <div class="form-row">
-                <label for="studentName">Student Name</label>
-                <input id="studentName" name="studentName" type="text" placeholder="e.g. Wang Hong" required />
-              </div>
-
-              <div class="form-row">
-                <label for="studentId">Student ID</label>
-                <input id="studentId" name="studentId" type="text" placeholder="e.g. TP078888" required />
-              </div>
-
-              <div class="form-row">
-                <label for="courseName">Course Name</label>
-                <input id="courseName" name="courseName" type="text" placeholder="e.g. Programming in Java" required />
-              </div>
-
-              <div class="form-row two-cols">
-                <div>
-                  <label for="courseworkScore">Coursework Score</label>
-                  <input id="courseworkScore" name="courseworkScore" type="number" min="0" max="100" step="0.1" placeholder="0 - 100" required />
-                  <small>Weight: 50%</small>
-                </div>
-
-                <div>
-                  <label for="finalExamScore">Final Exam Score</label>
-                  <input id="finalExamScore" name="finalExamScore" type="number" min="0" max="100" step="0.1" placeholder="0 - 100" required />
-                  <small>Weight: 50%</small>
-                </div>
-              </div>
-
-              <div class="form-row two-cols">
-                <div>
-                  <label for="attendance">Attendance</label>
-                  <input id="attendance" name="attendance" type="number" min="0" max="100" step="1" placeholder="0 - 100" required />
-                  <small>Used for warning only</small>
-                </div>
-
-                <div>
-                  <label for="semester">Semester</label>
-                  <select id="semester" name="semester">
-                    <option value="Year 1 Semester 1">Year 1 Semester 1</option>
-                    <option value="Year 1 Semester 2">Year 1 Semester 2</option>
-                    <option value="Year 2 Semester 1">Year 2 Semester 1</option>
-                    <option value="Year 2 Semester 2">Year 2 Semester 2</option>
-                    <option value="Year 3 Semester 1">Year 3 Semester 1</option>
-                    <option value="Year 3 Semester 2">Year 3 Semester 2</option>
-                  </select>
-                </div>
-              </div>
-
-              <div class="form-row">
-                <label for="notes">Notes</label>
-                <textarea id="notes" name="notes" rows="4" placeholder="Optional notes for this record"></textarea>
-              </div>
-
-              <button class="btn primary full" type="submit">Calculate Grade</button>
-            </form>
-          </section>
-
-          <section class="panel result-panel">
-            <div class="panel-head">
-              <div>
-                <h3>Result</h3>
-                <p>Structured calculation output</p>
-              </div>
-
-              <button class="small-btn" type="button" id="copyResult">Copy</button>
-            </div>
-
-            <div id="emptyResult" class="empty-state">
-              <strong>No result yet</strong>
-              <span>Load a sample or enter scores, then click Calculate Grade.</span>
-            </div>
-
-            <div id="resultContent" class="result-content hidden">
-              <div class="result-banner" id="resultBanner">
-                <span id="resultStatus">Status</span>
-                <strong id="resultGrade">Grade</strong>
-              </div>
-
-              <div class="result-grid">
-                <div class="metric">
-                  <span>Coursework</span>
-                  <strong id="metricCoursework">-</strong>
-                </div>
-
-                <div class="metric">
-                  <span>Final Exam</span>
-                  <strong id="metricExam">-</strong>
-                </div>
-
-                <div class="metric">
-                  <span>Total Score</span>
-                  <strong id="metricTotal">-</strong>
-                </div>
-
-                <div class="metric">
-                  <span>Attendance</span>
-                  <strong id="metricAttendance">-</strong>
-                </div>
-              </div>
-
-              <div class="result-block">
-                <h4>Student Summary</h4>
-                <p id="studentSummary">-</p>
-              </div>
-
-              <div class="result-block">
-                <h4>Recovery Plan</h4>
-                <p id="recoveryPlan">-</p>
-              </div>
-
-              <div class="result-block">
-                <h4>System Notes</h4>
-                <ul id="systemNotes"></ul>
-              </div>
-            </div>
-          </section>
-        </div>
-      </div>
-    </section>
-
-    <section id="records" class="section muted-section">
-      <div class="container">
-        <div class="section-heading">
-          <span>Records</span>
-          <h2>Local Calculation Records</h2>
-          <p>
-            Calculation records are stored in the browser using localStorage. They can be cleared or exported as CSV.
-          </p>
-        </div>
-
-        <div class="records-actions">
-          <button class="btn secondary" type="button" id="exportCsv">Export Records CSV</button>
-          <button class="btn ghost" type="button" id="clearRecords">Clear Records</button>
-        </div>
-
-        <div class="records-table-wrap">
-          <table class="records-table">
-            <thead>
-              <tr>
-                <th>Time</th>
-                <th>Student</th>
-                <th>Course</th>
-                <th>Total</th>
-                <th>Grade</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-
-            <tbody id="recordsBody">
-              <tr>
-                <td colspan="6" class="table-empty">No records yet.</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-
-    <section id="about" class="section">
-      <div class="container about-grid">
-        <article class="about-card">
-          <span>Project Note</span>
-          <h2>Java desktop system with a public web demo</h2>
-          <p>
-            The original project is a Java Student Grade Management System. This web page is not intended to
-            replace the Java desktop program. It is used to make the core grade calculation logic easier to review
-            through a browser-based demo.
-          </p>
-        </article>
-
-        <article class="about-card">
-          <span>Technical Focus</span>
-          <h2>Calculation, status judgement, and CSV handling</h2>
-          <p>
-            The demo focuses on weighted score calculation, grade classification, pass / fail status,
-            resit suggestion, local records, and CSV export. These parts are aligned with the Java system’s
-            core student grade management logic.
-          </p>
-        </article>
-      </div>
-    </section>
-  </main>
-
-  <footer class="footer">
-    <span>Java Student Grade Management System · Web Demo</span>
-    <a href="https://github.com/Chrisbetheking/java-student-management-system" target="_blank" rel="noopener">
-      GitHub Repository →
-    </a>
-  </footer>
-
-  <div class="toast" id="toast">Copied</div>
-
-  <script src="web-script.js"></script>
-</body>
-</html>
+/*
+  Simulated public demo data only.
+  This file intentionally contains no company data, no real business rules, and no backend keys.
+*/
+window.APP_DATA = {
+  storageKey: "ai_agent_workflow_public_demo_history_v1",
+  countries: [
+    { value: "all", label: "全部地区 / All" },
+    { value: "Malaysia", label: "马来西亚 / Malaysia" },
+    { value: "United Kingdom", label: "英国 / United Kingdom" },
+    { value: "Australia", label: "澳大利亚 / Australia" },
+    { value: "Singapore", label: "新加坡 / Singapore" }
+  ],
+  stages: [
+    { value: "undergraduate", label: "本科申请 / Undergraduate" },
+    { value: "master", label: "硕士申请 / Master" },
+    { value: "phd", label: "博士申请 / PhD" }
+  ],
+  majors: [
+    { value: "Computer Science", label: "计算机科学 / Computer Science" },
+    { value: "Business Analytics", label: "商业分析 / Business Analytics" },
+    { value: "Marketing", label: "市场营销 / Marketing" },
+    { value: "Finance", label: "金融 / Finance" },
+    { value: "Education", label: "教育学 / Education" },
+    { value: "Data Science", label: "数据科学 / Data Science" }
+  ],
+  budgets: [
+    { value: "low", label: "预算敏感 / Budget-sensitive" },
+    { value: "medium", label: "中等预算 / Medium" },
+    { value: "high", label: "较高预算 / High" }
+  ],
+  workflows: [
+    {
+      id: "school-search",
+      title: "院校信息检索 / School Search",
+      tag: "Information Retrieval",
+      description: "根据目标国家、专业方向和申请阶段快速整理公开院校信息，输出可继续跟进的查询摘要。",
+      fields: [
+        { id: "studentName", label: "学生姓名", type: "text", placeholder: "例如：Alex Chen" },
+        { id: "stage", label: "申请阶段", type: "select", optionsKey: "stages" },
+        { id: "targetCountry", label: "目标国家", type: "select", optionsKey: "countries", excludeAll: false },
+        { id: "targetMajor", label: "目标专业", type: "select", optionsKey: "majors" },
+        { id: "gpa", label: "GPA / CGPA", type: "number", placeholder: "例如：3.35", min: 0, step: 0.01 },
+        { id: "budget", label: "预算", type: "select", optionsKey: "budgets" },
+        { id: "needs", label: "需求描述", type: "textarea", placeholder: "例如：希望优先考虑马来西亚校区、预算可控、课程偏实践。", full: true }
+      ]
+    },
+    {
+      id: "cgpa-conversion",
+      title: "CGPA 自动换算 / CGPA Conversion",
+      tag: "Academic Reference",
+      description: "用公开演示规则进行成绩制式参考换算，并提示正式申请中需要以学校官方口径为准。",
+      fields: [
+        { id: "studentName", label: "学生姓名", type: "text", placeholder: "例如：Mia Lee" },
+        { id: "sourceScale", label: "原成绩制度", type: "select", options: [
+          { value: "4.0", label: "4.0 GPA" },
+          { value: "5.0", label: "5.0 CGPA" },
+          { value: "100", label: "100 分制" },
+          { value: "uk", label: "英制等级" }
+        ]},
+        { id: "score", label: "原始成绩", type: "text", placeholder: "例如：3.45 / 82 / Upper Second" },
+        { id: "targetScale", label: "目标制度", type: "select", options: [
+          { value: "4.0", label: "4.0 GPA" },
+          { value: "5.0", label: "5.0 CGPA" },
+          { value: "100", label: "100 分制" },
+          { value: "uk", label: "英制等级" }
+        ]},
+        { id: "needs", label: "换算用途", type: "textarea", placeholder: "例如：用于硕士申请前的初步材料整理。", full: true }
+      ]
+    },
+    {
+      id: "program-recommendation",
+      title: "院校专业推荐 / Program Recommendation",
+      tag: "Matching Workflow",
+      description: "基于模拟数据和简化规则，给出冲刺、匹配、稳妥方向，展示结构化推荐结果。",
+      fields: [
+        { id: "studentName", label: "学生姓名", type: "text", placeholder: "例如：Jordan Tan" },
+        { id: "stage", label: "申请阶段", type: "select", optionsKey: "stages" },
+        { id: "targetCountry", label: "目标国家", type: "select", optionsKey: "countries", excludeAll: false },
+        { id: "targetMajor", label: "目标专业", type: "select", optionsKey: "majors" },
+        { id: "gpa", label: "GPA / CGPA", type: "number", placeholder: "例如：3.60", min: 0, step: 0.01 },
+        { id: "budget", label: "预算", type: "select", optionsKey: "budgets" },
+        { id: "needs", label: "需求描述", type: "textarea", placeholder: "例如：希望偏数据分析方向，接受英国和马来西亚，想要保留冲刺选择。", full: true }
+      ]
+    },
+    {
+      id: "sales-content",
+      title: "销售内容生成 / Sales Content Generation",
+      tag: "Sales Enablement",
+      description: "根据销售场景、产品类型和目标人群，生成可复制的获客文案与跟进动作。",
+      fields: [
+        { id: "salesScenario", label: "销售场景", type: "select", options: [
+          { value: "social-post", label: "社交媒体获客" },
+          { value: "wechat-followup", label: "微信跟进" },
+          { value: "consultation-summary", label: "咨询后总结" }
+        ]},
+        { id: "productType", label: "产品类型", type: "select", options: [
+          { value: "school-search", label: "选校咨询" },
+          { value: "application-planning", label: "申请规划" },
+          { value: "document-review", label: "文书梳理" }
+        ]},
+        { id: "targetAudience", label: "目标用户", type: "select", options: [
+          { value: "undergraduate", label: "本科申请学生" },
+          { value: "master", label: "硕士申请学生" },
+          { value: "parents", label: "学生家长" }
+        ]},
+        { id: "targetCountry", label: "目标国家", type: "select", optionsKey: "countries", excludeAll: false },
+        { id: "tone", label: "文案风格", type: "select", options: [
+          { value: "professional", label: "专业克制" },
+          { value: "friendly", label: "自然亲和" },
+          { value: "concise", label: "短句直接" }
+        ]},
+        { id: "needs", label: "内容需求", type: "textarea", placeholder: "例如：突出申请规划流程，不夸大承诺，适合朋友圈发布。", full: true }
+      ]
+    }
+  ],
+  samples: [
+    {
+      id: "sample-undergraduate",
+      button: "本科申请样例",
+      workflowId: "program-recommendation",
+      values: {
+        studentName: "Alex Chen",
+        stage: "undergraduate",
+        targetCountry: "Malaysia",
+        targetMajor: "Computer Science",
+        gpa: "3.30",
+        budget: "medium",
+        needs: "希望选择英语授课、课程偏实践、预算相对可控的本科项目。"
+      }
+    },
+    {
+      id: "sample-master",
+      button: "硕士申请样例",
+      workflowId: "program-recommendation",
+      values: {
+        studentName: "Mia Lee",
+        stage: "master",
+        targetCountry: "United Kingdom",
+        targetMajor: "Business Analytics",
+        gpa: "3.55",
+        budget: "high",
+        needs: "本科商科背景，希望申请商业分析方向，优先考虑就业导向和课程实践。"
+      }
+    },
+    {
+      id: "sample-cgpa",
+      button: "CGPA 换算样例",
+      workflowId: "cgpa-conversion",
+      values: {
+        studentName: "Jordan Tan",
+        sourceScale: "4.0",
+        score: "3.42",
+        targetScale: "100",
+        needs: "用于申请前的材料整理，仅需要公开演示版本的参考换算。"
+      }
+    },
+    {
+      id: "sample-copy",
+      button: "获客文案样例",
+      workflowId: "sales-content",
+      values: {
+        salesScenario: "social-post",
+        productType: "application-planning",
+        targetAudience: "master",
+        targetCountry: "United Kingdom",
+        tone: "professional",
+        needs: "面向准备申请英国硕士的学生，突出流程梳理和风险提醒，不做录取承诺。"
+      }
+    }
+  ],
+  schools: [
+    {
+      name: "Asia Pacific University",
+      country: "Malaysia",
+      city: "Kuala Lumpur",
+      minGpa: 3.0,
+      budget: "medium",
+      supportedStages: ["undergraduate", "master"],
+      programs: ["Computer Science", "Data Science", "Business Analytics"],
+      summary: "Simulated public demo data. Suitable for technology and applied computing directions in this demo."
+    },
+    {
+      name: "University of Manchester",
+      country: "United Kingdom",
+      city: "Manchester",
+      minGpa: 3.45,
+      budget: "high",
+      supportedStages: ["undergraduate", "master", "phd"],
+      programs: ["Business Analytics", "Computer Science", "Marketing", "Finance"],
+      summary: "Simulated public demo data. Used here as a UK reference option for competitive profiles."
+    },
+    {
+      name: "University of Nottingham Malaysia",
+      country: "Malaysia",
+      city: "Semenyih",
+      minGpa: 3.2,
+      budget: "medium",
+      supportedStages: ["undergraduate", "master", "phd"],
+      programs: ["Education", "Computer Science", "Finance", "Marketing"],
+      summary: "Simulated public demo data. Used to demonstrate Malaysia campus recommendations."
+    },
+    {
+      name: "Monash University Malaysia",
+      country: "Malaysia",
+      city: "Subang Jaya",
+      minGpa: 3.3,
+      budget: "high",
+      supportedStages: ["undergraduate", "master"],
+      programs: ["Data Science", "Business Analytics", "Marketing", "Finance"],
+      summary: "Simulated public demo data. Used for higher-budget Malaysia study options."
+    },
+    {
+      name: "Taylor's University",
+      country: "Malaysia",
+      city: "Subang Jaya",
+      minGpa: 2.8,
+      budget: "medium",
+      supportedStages: ["undergraduate", "master"],
+      programs: ["Business Analytics", "Marketing", "Education"],
+      summary: "Simulated public demo data. Used for business, marketing and applied education pathways."
+    },
+    {
+      name: "University of Queensland",
+      country: "Australia",
+      city: "Brisbane",
+      minGpa: 3.35,
+      budget: "high",
+      supportedStages: ["undergraduate", "master", "phd"],
+      programs: ["Data Science", "Finance", "Education"],
+      summary: "Simulated public demo data. Included to demonstrate Australia destination filtering."
+    },
+    {
+      name: "Singapore Institute of Management",
+      country: "Singapore",
+      city: "Singapore",
+      minGpa: 3.1,
+      budget: "high",
+      supportedStages: ["undergraduate", "master"],
+      programs: ["Business Analytics", "Marketing", "Finance"],
+      summary: "Simulated public demo data. Included for Singapore-oriented business program examples."
+    }
+  ],
+  publicBoundaryNotes: [
+    "All school and program records are simulated public demo data.",
+    "The matching logic is simplified for front-end demonstration only.",
+    "No company data, internal business rules, backend keys, prompts, or integration settings are included.",
+    "Formal admissions advice should always follow official university and company review processes."
+  ]
+};
