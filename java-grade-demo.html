@@ -1,250 +1,390 @@
-/*
-  Simulated public demo data only.
-  This file intentionally contains no company data, no real business rules, and no backend keys.
-*/
-window.APP_DATA = {
-  storageKey: "ai_agent_workflow_public_demo_history_v1",
-  countries: [
-    { value: "all", label: "全部地区 / All" },
-    { value: "Malaysia", label: "马来西亚 / Malaysia" },
-    { value: "United Kingdom", label: "英国 / United Kingdom" },
-    { value: "Australia", label: "澳大利亚 / Australia" },
-    { value: "Singapore", label: "新加坡 / Singapore" }
-  ],
-  stages: [
-    { value: "undergraduate", label: "本科申请 / Undergraduate" },
-    { value: "master", label: "硕士申请 / Master" },
-    { value: "phd", label: "博士申请 / PhD" }
-  ],
-  majors: [
-    { value: "Computer Science", label: "计算机科学 / Computer Science" },
-    { value: "Business Analytics", label: "商业分析 / Business Analytics" },
-    { value: "Marketing", label: "市场营销 / Marketing" },
-    { value: "Finance", label: "金融 / Finance" },
-    { value: "Education", label: "教育学 / Education" },
-    { value: "Data Science", label: "数据科学 / Data Science" }
-  ],
-  budgets: [
-    { value: "low", label: "预算敏感 / Budget-sensitive" },
-    { value: "medium", label: "中等预算 / Medium" },
-    { value: "high", label: "较高预算 / High" }
-  ],
-  workflows: [
-    {
-      id: "school-search",
-      title: "院校信息检索 / School Search",
-      tag: "Information Retrieval",
-      description: "根据目标国家、专业方向和申请阶段快速整理公开院校信息，输出可继续跟进的查询摘要。",
-      fields: [
-        { id: "studentName", label: "学生姓名", type: "text", placeholder: "例如：Alex Chen" },
-        { id: "stage", label: "申请阶段", type: "select", optionsKey: "stages" },
-        { id: "targetCountry", label: "目标国家", type: "select", optionsKey: "countries", excludeAll: false },
-        { id: "targetMajor", label: "目标专业", type: "select", optionsKey: "majors" },
-        { id: "gpa", label: "GPA / CGPA", type: "number", placeholder: "例如：3.35", min: 0, step: 0.01 },
-        { id: "budget", label: "预算", type: "select", optionsKey: "budgets" },
-        { id: "needs", label: "需求描述", type: "textarea", placeholder: "例如：希望优先考虑马来西亚校区、预算可控、课程偏实践。", full: true }
-      ]
-    },
-    {
-      id: "cgpa-conversion",
-      title: "CGPA 自动换算 / CGPA Conversion",
-      tag: "Academic Reference",
-      description: "用公开演示规则进行成绩制式参考换算，并提示正式申请中需要以学校官方口径为准。",
-      fields: [
-        { id: "studentName", label: "学生姓名", type: "text", placeholder: "例如：Mia Lee" },
-        { id: "sourceScale", label: "原成绩制度", type: "select", options: [
-          { value: "4.0", label: "4.0 GPA" },
-          { value: "5.0", label: "5.0 CGPA" },
-          { value: "100", label: "100 分制" },
-          { value: "uk", label: "英制等级" }
-        ]},
-        { id: "score", label: "原始成绩", type: "text", placeholder: "例如：3.45 / 82 / Upper Second" },
-        { id: "targetScale", label: "目标制度", type: "select", options: [
-          { value: "4.0", label: "4.0 GPA" },
-          { value: "5.0", label: "5.0 CGPA" },
-          { value: "100", label: "100 分制" },
-          { value: "uk", label: "英制等级" }
-        ]},
-        { id: "needs", label: "换算用途", type: "textarea", placeholder: "例如：用于硕士申请前的初步材料整理。", full: true }
-      ]
-    },
-    {
-      id: "program-recommendation",
-      title: "院校专业推荐 / Program Recommendation",
-      tag: "Matching Workflow",
-      description: "基于模拟数据和简化规则，给出冲刺、匹配、稳妥方向，展示结构化推荐结果。",
-      fields: [
-        { id: "studentName", label: "学生姓名", type: "text", placeholder: "例如：Jordan Tan" },
-        { id: "stage", label: "申请阶段", type: "select", optionsKey: "stages" },
-        { id: "targetCountry", label: "目标国家", type: "select", optionsKey: "countries", excludeAll: false },
-        { id: "targetMajor", label: "目标专业", type: "select", optionsKey: "majors" },
-        { id: "gpa", label: "GPA / CGPA", type: "number", placeholder: "例如：3.60", min: 0, step: 0.01 },
-        { id: "budget", label: "预算", type: "select", optionsKey: "budgets" },
-        { id: "needs", label: "需求描述", type: "textarea", placeholder: "例如：希望偏数据分析方向，接受英国和马来西亚，想要保留冲刺选择。", full: true }
-      ]
-    },
-    {
-      id: "sales-content",
-      title: "销售内容生成 / Sales Content Generation",
-      tag: "Sales Enablement",
-      description: "根据销售场景、产品类型和目标人群，生成可复制的获客文案与跟进动作。",
-      fields: [
-        { id: "salesScenario", label: "销售场景", type: "select", options: [
-          { value: "social-post", label: "社交媒体获客" },
-          { value: "wechat-followup", label: "微信跟进" },
-          { value: "consultation-summary", label: "咨询后总结" }
-        ]},
-        { id: "productType", label: "产品类型", type: "select", options: [
-          { value: "school-search", label: "选校咨询" },
-          { value: "application-planning", label: "申请规划" },
-          { value: "document-review", label: "文书梳理" }
-        ]},
-        { id: "targetAudience", label: "目标用户", type: "select", options: [
-          { value: "undergraduate", label: "本科申请学生" },
-          { value: "master", label: "硕士申请学生" },
-          { value: "parents", label: "学生家长" }
-        ]},
-        { id: "targetCountry", label: "目标国家", type: "select", optionsKey: "countries", excludeAll: false },
-        { id: "tone", label: "文案风格", type: "select", options: [
-          { value: "professional", label: "专业克制" },
-          { value: "friendly", label: "自然亲和" },
-          { value: "concise", label: "短句直接" }
-        ]},
-        { id: "needs", label: "内容需求", type: "textarea", placeholder: "例如：突出申请规划流程，不夸大承诺，适合朋友圈发布。", full: true }
-      ]
-    }
-  ],
-  samples: [
-    {
-      id: "sample-undergraduate",
-      button: "本科申请样例",
-      workflowId: "program-recommendation",
-      values: {
-        studentName: "Alex Chen",
-        stage: "undergraduate",
-        targetCountry: "Malaysia",
-        targetMajor: "Computer Science",
-        gpa: "3.30",
-        budget: "medium",
-        needs: "希望选择英语授课、课程偏实践、预算相对可控的本科项目。"
-      }
-    },
-    {
-      id: "sample-master",
-      button: "硕士申请样例",
-      workflowId: "program-recommendation",
-      values: {
-        studentName: "Mia Lee",
-        stage: "master",
-        targetCountry: "United Kingdom",
-        targetMajor: "Business Analytics",
-        gpa: "3.55",
-        budget: "high",
-        needs: "本科商科背景，希望申请商业分析方向，优先考虑就业导向和课程实践。"
-      }
-    },
-    {
-      id: "sample-cgpa",
-      button: "CGPA 换算样例",
-      workflowId: "cgpa-conversion",
-      values: {
-        studentName: "Jordan Tan",
-        sourceScale: "4.0",
-        score: "3.42",
-        targetScale: "100",
-        needs: "用于申请前的材料整理，仅需要公开演示版本的参考换算。"
-      }
-    },
-    {
-      id: "sample-copy",
-      button: "获客文案样例",
-      workflowId: "sales-content",
-      values: {
-        salesScenario: "social-post",
-        productType: "application-planning",
-        targetAudience: "master",
-        targetCountry: "United Kingdom",
-        tone: "professional",
-        needs: "面向准备申请英国硕士的学生，突出流程梳理和风险提醒，不做录取承诺。"
-      }
-    }
-  ],
-  schools: [
-    {
-      name: "Asia Pacific University",
-      country: "Malaysia",
-      city: "Kuala Lumpur",
-      minGpa: 3.0,
-      budget: "medium",
-      supportedStages: ["undergraduate", "master"],
-      programs: ["Computer Science", "Data Science", "Business Analytics"],
-      summary: "Simulated public demo data. Suitable for technology and applied computing directions in this demo."
-    },
-    {
-      name: "University of Manchester",
-      country: "United Kingdom",
-      city: "Manchester",
-      minGpa: 3.45,
-      budget: "high",
-      supportedStages: ["undergraduate", "master", "phd"],
-      programs: ["Business Analytics", "Computer Science", "Marketing", "Finance"],
-      summary: "Simulated public demo data. Used here as a UK reference option for competitive profiles."
-    },
-    {
-      name: "University of Nottingham Malaysia",
-      country: "Malaysia",
-      city: "Semenyih",
-      minGpa: 3.2,
-      budget: "medium",
-      supportedStages: ["undergraduate", "master", "phd"],
-      programs: ["Education", "Computer Science", "Finance", "Marketing"],
-      summary: "Simulated public demo data. Used to demonstrate Malaysia campus recommendations."
-    },
-    {
-      name: "Monash University Malaysia",
-      country: "Malaysia",
-      city: "Subang Jaya",
-      minGpa: 3.3,
-      budget: "high",
-      supportedStages: ["undergraduate", "master"],
-      programs: ["Data Science", "Business Analytics", "Marketing", "Finance"],
-      summary: "Simulated public demo data. Used for higher-budget Malaysia study options."
-    },
-    {
-      name: "Taylor's University",
-      country: "Malaysia",
-      city: "Subang Jaya",
-      minGpa: 2.8,
-      budget: "medium",
-      supportedStages: ["undergraduate", "master"],
-      programs: ["Business Analytics", "Marketing", "Education"],
-      summary: "Simulated public demo data. Used for business, marketing and applied education pathways."
-    },
-    {
-      name: "University of Queensland",
-      country: "Australia",
-      city: "Brisbane",
-      minGpa: 3.35,
-      budget: "high",
-      supportedStages: ["undergraduate", "master", "phd"],
-      programs: ["Data Science", "Finance", "Education"],
-      summary: "Simulated public demo data. Included to demonstrate Australia destination filtering."
-    },
-    {
-      name: "Singapore Institute of Management",
-      country: "Singapore",
-      city: "Singapore",
-      minGpa: 3.1,
-      budget: "high",
-      supportedStages: ["undergraduate", "master"],
-      programs: ["Business Analytics", "Marketing", "Finance"],
-      summary: "Simulated public demo data. Included for Singapore-oriented business program examples."
-    }
-  ],
-  publicBoundaryNotes: [
-    "All school and program records are simulated public demo data.",
-    "The matching logic is simplified for front-end demonstration only.",
-    "No company data, internal business rules, backend keys, prompts, or integration settings are included.",
-    "Formal admissions advice should always follow official university and company review processes."
-  ]
-};
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Java 学生成绩管理系统</title>
+
+  <meta
+    name="description"
+    content="Java 学生成绩管理系统 Web Demo，用于展示 Java 桌面系统中的核心成绩计算逻辑。"
+  />
+
+  <link rel="stylesheet" href="web-style.css" />
+</head>
+
+<body>
+  <div class="page-bg"></div>
+
+  <header class="site-header">
+    <nav class="nav">
+      <a class="brand" href="#">
+        <span class="brand-mark">JG</span>
+        <span data-i18n="brand">Java 成绩系统</span>
+      </a>
+
+      <div class="nav-links">
+        <a href="#calculator" data-i18n="navCalculator">成绩计算</a>
+        <a href="#records" data-i18n="navRecords">记录</a>
+        <a href="#about" data-i18n="navAbout">说明</a>
+        <a href="https://github.com/Chrisbetheking/java-student-management-system" target="_blank" rel="noopener">
+          GitHub
+        </a>
+        <button class="lang-btn" type="button" id="langToggle">English</button>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <div class="eyebrow">
+            <span>Java</span>
+            <span>OOP</span>
+            <span data-i18n="tagCalculation">成绩计算</span>
+            <span>CSV Export</span>
+          </div>
+
+          <h1 data-i18n="heroTitle">Java 学生成绩管理系统</h1>
+
+          <p class="hero-subtitle" data-i18n="heroSubtitle">
+            用于展示 Java 桌面系统核心成绩计算逻辑的 Web Demo。
+          </p>
+
+          <p class="hero-text" data-i18n="heroText">
+            本页面从 Java 学生成绩管理系统中提取核心成绩计算逻辑，用于公开展示成绩计算、通过 / 未通过判断、补考建议、本地记录和 CSV 导出功能。HR 或面试官无需本地运行 Java 桌面程序，也可以直接在浏览器中测试核心逻辑。
+          </p>
+
+          <div class="hero-actions">
+            <a class="btn primary" href="#calculator" data-i18n="tryCalculator">测试计算器</a>
+
+            <button class="btn secondary" type="button" id="loadPassTop" data-i18n="loadPass">
+              加载通过样例
+            </button>
+
+            <a
+              class="btn ghost"
+              href="https://github.com/Chrisbetheking/java-student-management-system"
+              target="_blank"
+              rel="noopener"
+              data-i18n="sourceCode"
+            >
+              源码仓库
+            </a>
+          </div>
+        </div>
+
+        <div class="summary-card">
+          <p class="summary-label" data-i18n="demoFocus">演示重点</p>
+
+          <div class="summary-list">
+            <div>
+              <strong data-i18n="calculation">成绩计算</strong>
+              <span data-i18n="calculationDesc">平时成绩 + 期末成绩</span>
+            </div>
+
+            <div>
+              <strong data-i18n="status">状态判断</strong>
+              <span data-i18n="statusDesc">通过 / 未通过 / 需要补考</span>
+            </div>
+
+            <div>
+              <strong data-i18n="records">本地记录</strong>
+              <span data-i18n="recordsDescShort">LocalStorage + CSV 导出</span>
+            </div>
+
+            <div>
+              <strong data-i18n="projectType">项目类型</strong>
+              <span data-i18n="projectTypeDesc">Java 系统 + Web Demo</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="calculator" class="section">
+      <div class="container">
+        <div class="section-heading">
+          <span data-i18n="calculatorTag">Calculator</span>
+          <h2 data-i18n="calculatorTitle">成绩计算 Demo</h2>
+          <p data-i18n="calculatorDesc">
+            可以使用样例按钮快速填充数据，也可以输入自定义成绩，测试总评分数、等级、通过状态和补考建议。
+          </p>
+        </div>
+
+        <div class="workspace">
+          <section class="panel form-panel">
+            <div class="panel-head">
+              <div>
+                <h3 data-i18n="inputTitle">输入信息</h3>
+                <p data-i18n="inputDesc">学生和课程信息</p>
+              </div>
+
+              <button class="small-btn" type="button" id="resetForm" data-i18n="reset">重置</button>
+            </div>
+
+            <div class="sample-grid">
+              <button type="button" class="sample-btn" data-sample="pass" data-i18n="samplePass">通过样例</button>
+              <button type="button" class="sample-btn" data-sample="borderline" data-i18n="sampleBorderline">边界样例</button>
+              <button type="button" class="sample-btn" data-sample="failed" data-i18n="sampleFailed">未通过样例</button>
+              <button type="button" class="sample-btn" data-sample="excellent" data-i18n="sampleExcellent">优秀样例</button>
+            </div>
+
+            <form id="gradeForm" class="grade-form">
+              <div class="form-row">
+                <label for="studentName" data-i18n="studentName">学生姓名</label>
+                <input
+                  id="studentName"
+                  name="studentName"
+                  type="text"
+                  placeholder="例如：Wang Hong"
+                  data-i18n-placeholder="studentNamePlaceholder"
+                  required
+                />
+              </div>
+
+              <div class="form-row">
+                <label for="studentId" data-i18n="studentId">学生 ID</label>
+                <input
+                  id="studentId"
+                  name="studentId"
+                  type="text"
+                  placeholder="例如：TP078888"
+                  data-i18n-placeholder="studentIdPlaceholder"
+                  required
+                />
+              </div>
+
+              <div class="form-row">
+                <label for="courseName" data-i18n="courseName">课程名称</label>
+                <input
+                  id="courseName"
+                  name="courseName"
+                  type="text"
+                  placeholder="例如：Programming in Java"
+                  data-i18n-placeholder="courseNamePlaceholder"
+                  required
+                />
+              </div>
+
+              <div class="form-row two-cols">
+                <div>
+                  <label for="courseworkScore" data-i18n="courseworkScore">平时成绩</label>
+                  <input
+                    id="courseworkScore"
+                    name="courseworkScore"
+                    type="number"
+                    min="0"
+                    max="100"
+                    step="0.1"
+                    placeholder="0 - 100"
+                    required
+                  />
+                  <small data-i18n="courseworkWeight">权重：50%</small>
+                </div>
+
+                <div>
+                  <label for="finalExamScore" data-i18n="finalExamScore">期末成绩</label>
+                  <input
+                    id="finalExamScore"
+                    name="finalExamScore"
+                    type="number"
+                    min="0"
+                    max="100"
+                    step="0.1"
+                    placeholder="0 - 100"
+                    required
+                  />
+                  <small data-i18n="examWeight">权重：50%</small>
+                </div>
+              </div>
+
+              <div class="form-row two-cols">
+                <div>
+                  <label for="attendance" data-i18n="attendance">出勤率</label>
+                  <input
+                    id="attendance"
+                    name="attendance"
+                    type="number"
+                    min="0"
+                    max="100"
+                    step="1"
+                    placeholder="0 - 100"
+                    required
+                  />
+                  <small data-i18n="attendanceNote">仅用于风险提醒</small>
+                </div>
+
+                <div>
+                  <label for="semester" data-i18n="semester">学期</label>
+                  <select id="semester" name="semester">
+                    <option value="Year 1 Semester 1">Year 1 Semester 1</option>
+                    <option value="Year 1 Semester 2">Year 1 Semester 2</option>
+                    <option value="Year 2 Semester 1">Year 2 Semester 1</option>
+                    <option value="Year 2 Semester 2">Year 2 Semester 2</option>
+                    <option value="Year 3 Semester 1">Year 3 Semester 1</option>
+                    <option value="Year 3 Semester 2">Year 3 Semester 2</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <label for="notes" data-i18n="notes">备注</label>
+                <textarea
+                  id="notes"
+                  name="notes"
+                  rows="4"
+                  placeholder="可选备注"
+                  data-i18n-placeholder="notesPlaceholder"
+                ></textarea>
+              </div>
+
+              <button class="btn primary full" type="submit" data-i18n="calculateGrade">
+                计算成绩
+              </button>
+            </form>
+          </section>
+
+          <section class="panel result-panel">
+            <div class="panel-head">
+              <div>
+                <h3 data-i18n="resultTitle">结果</h3>
+                <p data-i18n="resultDesc">结构化计算结果</p>
+              </div>
+
+              <button class="small-btn" type="button" id="copyResult" data-i18n="copy">复制</button>
+            </div>
+
+            <div id="emptyResult" class="empty-state">
+              <div>
+                <strong data-i18n="noResult">暂无结果</strong>
+                <span data-i18n="noResultDesc">加载样例或输入成绩后，点击计算成绩。</span>
+              </div>
+            </div>
+
+            <div id="resultContent" class="result-content hidden">
+              <div class="result-banner" id="resultBanner">
+                <span id="resultStatus">状态</span>
+                <strong id="resultGrade">等级</strong>
+              </div>
+
+              <div class="result-grid">
+                <div class="metric">
+                  <span data-i18n="metricCourseworkLabel">平时成绩</span>
+                  <strong id="metricCoursework">-</strong>
+                </div>
+
+                <div class="metric">
+                  <span data-i18n="metricExamLabel">期末成绩</span>
+                  <strong id="metricExam">-</strong>
+                </div>
+
+                <div class="metric">
+                  <span data-i18n="metricTotalLabel">总评成绩</span>
+                  <strong id="metricTotal">-</strong>
+                </div>
+
+                <div class="metric">
+                  <span data-i18n="metricAttendanceLabel">出勤率</span>
+                  <strong id="metricAttendance">-</strong>
+                </div>
+              </div>
+
+              <div class="result-block">
+                <h4 data-i18n="studentSummaryTitle">学生摘要</h4>
+                <p id="studentSummary">-</p>
+              </div>
+
+              <div class="result-block">
+                <h4 data-i18n="recoveryPlanTitle">补考 / 恢复建议</h4>
+                <p id="recoveryPlan">-</p>
+              </div>
+
+              <div class="result-block">
+                <h4 data-i18n="systemNotesTitle">系统说明</h4>
+                <ul id="systemNotes"></ul>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <section id="records" class="section muted-section">
+      <div class="container">
+        <div class="section-heading">
+          <span data-i18n="recordsTag">Records</span>
+          <h2 data-i18n="recordsTitle">本地计算记录</h2>
+          <p data-i18n="recordsDesc">
+            计算记录会使用 localStorage 保存在浏览器中，可以清空，也可以导出为 CSV 文件。
+          </p>
+        </div>
+
+        <div class="records-actions">
+          <button class="btn secondary" type="button" id="exportCsv" data-i18n="exportCsv">导出 CSV</button>
+          <button class="btn ghost" type="button" id="clearRecords" data-i18n="clearRecords">清空记录</button>
+        </div>
+
+        <div class="records-table-wrap">
+          <table class="records-table">
+            <thead>
+              <tr>
+                <th data-i18n="tableTime">时间</th>
+                <th data-i18n="tableStudent">学生</th>
+                <th data-i18n="tableCourse">课程</th>
+                <th data-i18n="tableTotal">总分</th>
+                <th data-i18n="tableGrade">等级</th>
+                <th data-i18n="tableStatus">状态</th>
+              </tr>
+            </thead>
+
+            <tbody id="recordsBody">
+              <tr>
+                <td colspan="6" class="table-empty" data-i18n="noRecords">暂无记录。</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="section">
+      <div class="container about-grid">
+        <article class="about-card">
+          <span data-i18n="projectNote">Project Note</span>
+          <h2 data-i18n="aboutTitle1">Java 桌面系统与 Web Demo</h2>
+          <p data-i18n="aboutText1">
+            原项目主体是 Java 学生成绩管理系统。本网页不是替代 Java 桌面程序，而是用于公开展示其中最核心的成绩计算逻辑，方便通过浏览器快速查看。
+          </p>
+        </article>
+
+        <article class="about-card">
+          <span data-i18n="technicalFocus">Technical Focus</span>
+          <h2 data-i18n="aboutTitle2">技术重点</h2>
+          <p data-i18n="aboutText2">
+            Demo 重点展示加权成绩计算、等级划分、通过 / 未通过判断、补考建议、本地记录和 CSV 导出。这些内容对应 Java 系统中的学生成绩管理核心逻辑。
+          </p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span data-i18n="footer">Java 学生成绩管理系统 · Web Demo</span>
+    <a
+      href="https://github.com/Chrisbetheking/java-student-management-system"
+      target="_blank"
+      rel="noopener"
+      data-i18n="githubLink"
+    >
+      GitHub 仓库 →
+    </a>
+  </footer>
+
+  <div class="toast" id="toast">Copied</div>
+
+  <script src="web-script.js"></script>
+</body>
+</html>
